@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  nombre: MyString
+  es_maestria: false
+  duracion: 
+
+two:
+  nombre: MyString
+  es_maestria: false
+  duracion: 
