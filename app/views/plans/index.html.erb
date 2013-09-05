@@ -1,8 +1,9 @@
-<h1>Listing plans</h1>
+<h1>Plan de estudios del estudiante <%= $estudiante.nombre %></h1>
 
 <table>
   <thead>
     <tr>
+      <th>Curso</th>
       <th></th>
       <th></th>
       <th></th>
@@ -12,6 +13,7 @@
   <tbody>
     <% @plans.each do |plan| %>
       <tr>
+        <td><%= plan.curso.nombre %></td>
         <td><%= link_to 'Show', plan %></td>
         <td><%= link_to 'Edit', edit_plan_path(plan) %></td>
         <td><%= link_to 'Destroy', plan, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -22,4 +24,4 @@
 
 <br>
 
-<%= link_to 'New Plan', new_plan_path %>
+<%= link_to 'Agregar materia al plan de estudios', new_plan_path %>

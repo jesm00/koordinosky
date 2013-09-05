@@ -4,7 +4,9 @@ class PlansController < ApplicationController
   # GET /plans
   # GET /plans.json
   def index
-    @plans = Plan.all
+	#En el futuro hay que agregar la opcion de recibir el estudiante por parametro
+    $estudiante=Estudiante.first()
+    @plans = Plan.where(estudiante_id:  $estudiante.id)
   end
 
   # GET /plans/1
@@ -24,17 +26,28 @@ class PlansController < ApplicationController
   # POST /plans
   # POST /plans.json
   def create
-    @plan = Plan.new(plan_params)
+	#Revisar que la materia no exista previamente en el plan de estudios del estudiante
+    if not(Plan.exists?(estudiante_id: $estudiante.id,curso_id: params[:plan][:curso_id]))
+		#De no existir se intenta agregar al plan de estudios
+		@plan = Plan.new(plan_params)
 
-    respond_to do |format|
-      if @plan.save
-        format.html { redirect_to @plan, notice: 'Plan was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @plan }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @plan.errors, status: :unprocessable_entity }
-      end
-    end
+		respond_to do |format|
+		  if @plan.save
+			format.html { redirect_to @plan, notice: 'Plan was successfully created.' }
+			format.json { render action: 'show', status: :created, location: @plan }
+		  else
+			format.html { render action: 'new' }
+			format.json { render json: @plan.errors, status: :unprocessable_entity }
+		  end
+		end
+	else
+		@plan = Plan.new(plan_params)
+		@plan.errors.add(:base, "La materia seleccionada ya esta en su plan de estudios ")
+		respond_to do |format|
+			format.html { render action: 'new' }
+			format.json { render json: @plan.errors, status: :unprocessable_entity }
+		end
+	end
   end
 
   # PATCH/PUT /plans/1
@@ -69,6 +82,7 @@ class PlansController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def plan_params
-      params[:plan]
+      params[:plan][:estudiante_id]=$estudiante.id.to_s
+      params.require(:plan).permit(:curso_id, :estudiante_id)
     end
 end

@@ -22,6 +22,12 @@
   <div class="field">
     <%= f.label :semestre_actual %><br>
     <%= f.text_field :semestre_actual %>
+  </div>  
+  <div class="field">
+	<%= f.select(:programa_id, 
+	    options_from_collection_for_select(Programa.all, :id, :nombre)
+	    )
+	%>
   </div>
   <div class="actions">
     <%= f.submit %>
