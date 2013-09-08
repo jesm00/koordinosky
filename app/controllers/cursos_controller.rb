@@ -1,6 +1,17 @@
 class CursosController < ApplicationController
   before_action :set_curso, only: [:show, :edit, :update, :destroy]
+  before_action :obtener_redireccion, only: [:seleccionar]
 
+  def obtener_redireccion
+	#Recibir información de redirección
+	@accion=params[:accion]
+	@controlador=params[:controlador]
+	#Si se recibieron valores invalidos redirigir a index
+	if @accion.nil?||@controlador.nil?
+		@controlador="pages"
+		@accion="index"
+	end
+  end 
   # GET /cursos
   # GET /cursos.json
   def index

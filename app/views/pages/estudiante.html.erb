@@ -1,0 +1,3 @@
+<h1>Opciones para el estudiante <%=@estudiante.nombre%></h1>
+<p><%=link_to "Agregar materia",:controller => "plans", :action => "index", :estudiante_id => @estudiante.id%></p>
+<p><%=link_to "Volver", "/index"%></p>

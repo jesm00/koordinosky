@@ -1,0 +1,12 @@
+<h1>Seleccione una materia por favor</h1>
+<%=form_tag(controller: @controlador, action: @accion) do%>  
+  <div class="field">
+	<%= select_tag(:curso_id, 
+	    options_from_collection_for_select(Curso.all, :id, :nombre)
+	    )
+	%>
+  </div>
+  <div class="actions">
+    <%= submit_tag("Seleccionar curso") %>
+  </div>
+<% end %>

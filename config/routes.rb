@@ -1,15 +1,35 @@
 Koordinosky::Application.routes.draw do
+  root 'pages#index'
   resources :validas
 
   resources :plans
 
   resources :cursadas
 
-  resources :cursos
+  resources :cursos do
+	  collection do
+		get 'seleccionar'
+	  end
+	end
 
   resources :programas
 
-  resources :estudiantes
+  resources :estudiantes do
+	  collection do
+		get 'seleccionar'
+	  end
+	end
+	  
+  get '/optimizador/asignacionCupos' => 'optimizador#asignacionCupos'
+  post '/optimizador/asignacionCupos' => 'optimizador#asignacionCupos'
+  
+  
+  get '/optimizador/demanda' => 'optimizador#calcularDemandaTodos'
+  post '/optimizador/demanda' => 'optimizador#calcularDemandaTodos'
+  
+  
+  get ':action' => 'pages'
+  post ':action' => 'pages'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

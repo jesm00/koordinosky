@@ -1,0 +1,11 @@
+<%=form_tag(controller: "pages", action: "estudiante") do%>  
+  <div class="field">
+	<%= select_tag(:estudiante_id, 
+	    options_from_collection_for_select(Estudiante.all, :id, :nombre)
+	    )
+	%>
+  </div>
+  <div class="actions">
+    <%= submit_tag("Seleccionar estudiante") %>
+  </div>
+<% end %>

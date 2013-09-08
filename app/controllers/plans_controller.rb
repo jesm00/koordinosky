@@ -4,8 +4,16 @@ class PlansController < ApplicationController
   # GET /plans
   # GET /plans.json
   def index
-	#En el futuro hay que agregar la opcion de recibir el estudiante por parametro
-    $estudiante=Estudiante.first()
+	#Recibir el id del estudiante a trabajar
+	id_est=params[:estudiante_id].to_i
+	#Si se recibio un id valido obtener el estudiante que tenga ese id
+	if id_est!=0
+		$estudiante=Estudiante.find(id_est)
+	end
+	#Si el id era invalido y aun no se a cargado un estudiante cargar el primero de la base de datos
+	if $estudiante.nil?
+		$estudiante=Estudiante.first()
+	end
     @plans = Plan.where(estudiante_id:  $estudiante.id)
   end
 
