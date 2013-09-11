@@ -27,6 +27,9 @@ class OptimizadorController < ApplicationController
 		@demanda=Plan.where(curso_id: @ofertaCurso.materia.id)
 		#Contar la demanda de los estudiantes
 		@demandaCurso=@demanda.count
+		#Separar a los estudiantes entre los de maestría (o maestrias de la materia en caso de que sea valida
+		#para mas de una, los de tras maestrias y los de pregrado 
+		separarEstudiantes()
 	end
 	
 	def calcularDemandaTodos
@@ -38,5 +41,27 @@ class OptimizadorController < ApplicationController
 		)
 		
 		render "optimizador/demanda"
+	end
+	
+	def separarEstudiantes
+		@estMaestria=Array.new
+		@estPregrado=Array.new
+		@estOtraMaestria=Array.new
+		#Para cada plan
+		@demanda.each do |plan|
+			#Revisar si el estudiante es de pregrado
+			if not(plan.estudiante.programa.es_maestria)
+				@estPregrado.push(plan.estudiante)
+			else
+				#Si es de maestria verificar si la maestria es valida para este curso
+				#y agregar al estudiante a la lista correspondiente
+				if @ofertaCurso.materia.esValida(plan.estudiante.programa.id)
+					@estMaestria.push(plan.estudiante)
+				else
+					@estOtraMaestria.push(plan.estudiante)
+				end
+			end
+			
+		end
 	end
 end

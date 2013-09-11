@@ -7,4 +7,8 @@ class Curso < ActiveRecord::Base
 		
 	has_many :cursadas
 	has_many :estudiantes, :through => :cursadas
+	#True si el curso es valido para esa maestria
+	def esValida(id_programa)	
+		return Valida.exists?(curso_id: id, programa_id: id_programa)
+	end
 end

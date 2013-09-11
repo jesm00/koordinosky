@@ -1,3 +1,37 @@
 <h1>Asignación de cupos para <%= @ofertaCurso.materia.nombre %></h1>
 <p>La demanda de la materia es: <%= @demandaCurso%></p>
 
+<table>
+  <thead>
+    <tr>
+      <th>Estudiante</th>
+      <th>Clasificacion</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+    <% @estPregrado.each do |dem| %>
+      <tr>
+        <td><%= dem.nombre %></td>
+        <td>Pregrado</td>    
+      </tr>
+    <% end %>
+
+    <% @estMaestria.each do |dem| %>
+      <tr>
+        <td><%= dem.nombre %></td>
+        <td>Maestria</td>   
+      </tr>
+    <% end %>
+    
+     <% @estOtraMaestria.each do |dem| %>
+      <tr>
+        <td><%= dem.nombre %></td>
+        <td>Otra maestria</td>  
+      </tr>
+    <% end %>
+  </tbody>
+  
+  
+</table>
