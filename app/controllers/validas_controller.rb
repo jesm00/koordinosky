@@ -24,17 +24,26 @@ class ValidasController < ApplicationController
   # POST /validas
   # POST /validas.json
   def create
-    @valida = Valida.new(valida_params)
-
-    respond_to do |format|
-      if @valida.save
-        format.html { redirect_to @valida, notice: 'Valida was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @valida }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @valida.errors, status: :unprocessable_entity }
-      end
-    end
+    if not(Valida.exists?(programa_id: params[:valida][:programa_id],curso_id: params[:valida][:curso_id]))
+		
+		@valida = Valida.new(valida_params)
+		respond_to do |format|
+		  if @valida.save
+			format.html { redirect_to @valida, notice: 'Valida was successfully created.' }
+			format.json { render action: 'show', status: :created, location: @valida }
+		  else
+			format.html { render action: 'new' }
+			format.json { render json: @valida.errors, status: :unprocessable_entity }
+		  end
+		end
+	else
+		@valida = Valida.new(valida_params)
+		@valida.errors.add(:base, "La materia seleccionada ya esta asociada con el programa dado")
+		respond_to do |format|
+			format.html { render action: 'new' }
+			format.json { render json: @valida.errors, status: :unprocessable_entity }
+		end
+	end
   end
 
   # PATCH/PUT /validas/1
@@ -69,6 +78,6 @@ class ValidasController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def valida_params
-      params[:valida]
+      params.require(:valida).permit(:curso_id, :programa_id)
     end
 end

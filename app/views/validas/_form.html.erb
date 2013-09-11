@@ -10,7 +10,18 @@
       </ul>
     </div>
   <% end %>
-
+  <div class="field">
+	<%= f.select(:curso_id, 
+	    options_from_collection_for_select(Curso.all, :id, :nombre)
+	    )
+	%>
+  </div>
+    <div class="field">
+	<%= f.select(:programa_id, 
+	    options_from_collection_for_select(Programa.all, :id, :nombre)
+	    )
+	%>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>
