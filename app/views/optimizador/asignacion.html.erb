@@ -1,37 +1,280 @@
+<head>
+  <script type="teXt/javascript">
+    function desplegar(tabla_a_desplegar,estadoT, estadoTfila) 
+    {
+      var tablA = document.getElementById(tabla_a_desplegar);
+      var estadOt = document.getElementById(estadoT);
+      var fila = document.getElementById(estadoTfila);
+      switch(tablA.style.display) 
+      {
+        case "none":
+          tablA.style.display = "block";
+          estadOt.innerHTML = "Ocultar";
+          break;
+        default:
+          tablA.style.display = "none";
+          estadOt.innerHTML = "Mostrar"
+          break;
+      }
+    }
+  </script>
+  
+  <style type="text/css">
+    table
+    {
+      border: 1px solid black;
+    }
+
+    td
+    {
+      border: 1px solid black;
+    }
+
+    tr
+    {
+      border: 1px solid black;
+    }
+
+    th
+    {
+      border: 1px solid black;
+    }
+  </style>
+
+</head>
+
+
 <h1>Asignación de cupos para <%= @ofertaCurso.materia.nombre %></h1>
-<p>La demanda de la materia es: <%= @demandaCurso%></p>
 
-<table>
-  <thead>
+<table border="px" width="100%">
+  <body>
+    <tr style="background: #FFBA75">
+      <th colspan="2">Información del Curso</th>
+    </tr> 
     <tr>
-      <th>Estudiante</th>
-      <th>Clasificacion</th>
+      <th>Nombre: <%= @ofertaCurso.materia.nombre %></th>
+      <th>Programa: </th>
+    </tr> 
+    <tr>
+      <th>Cupos Totales: <%= @nCuposTotales %></th>
+      <th>Cupos Asignados: <%= @nCuposAsignados%></th>
     </tr>
-  </thead>
+    <table width="100%">
+      <tr>
+        <td>Estudiantes Interasados (<%= @demanda.count %>)</td>
+        <td width="100px"><div align="center" id="estadoT" onClick="desplegar('tabla_a_desplegar5','estadoT5', 'estadoTfila5')" style="background: #EE8800; cursor: pointer;">Mostrar</div></td>
+      </tr>
+      <tr>
+        <td align="center" border="3" colspan="2">
+          <table  id="tabla_a_desplegar5" style="display:none;">
+              <tr style="background: #AAAAAA">
+                <th width="500px">Nombre</th>
+                <th width="500px">e-mail</th>
+                <th width="100px">Programa</th>
+                <th width="80px">Semestre</th>
+              </tr>
+              <% @demanda.each do |dem| %>
+                <tr align="center">
+                  <td><%= dem.estudiante.nombre %></td> 
+                  <td><%= dem.estudiante.email %></td>
+                  <td><%= dem.estudiante.programa.nombre %></td> 
+                  <td><%= dem.estudiante.semestre_actual %></td>   
+                </tr>
+              <% end %> 
+          </table>
+        </td>
+      </tr>
+    </table>    
+    </body>
+  </table>
+<h1> Detalles de Asignación</h1>
 
-  <tbody>
-    
-    <% @estPregrado.each do |dem| %>
-      <tr>
-        <td><%= dem.nombre %></td>
-        <td>Pregrado</td>    
-      </tr>
-    <% end %>
+<body>
+  <table width="100%">
+    <tr>
+      <td>Estudiantes de Alta Prioridad (<%= @asignadosAltaPrioridad.count %>)</td>
+      <td width="100px"><div align="center" id="estadoT" onClick="desplegar('tabla_a_desplegar','estadoT', 'estadoTfila')" style="background: #EE8800; cursor: pointer;">Mostrar</div></td>
+    </tr>
+    <tr>
+      <td align="center" border="3" colspan="2">
+        <table  id="tabla_a_desplegar" style="display:none;">
+            <tr>
+              <th colspan="4" style="background: #B0FFB0;">Asignados</th>
+            </tr>
+            <tr style="background: #EEEEEE">
+              <th width="500px">Nombre</th>
+              <th width="500px">e-mail</th>
+              <th width="100px">Programa</th>
+              <th width="80px">Semestre</th>
+            </tr>
+            <% @asignadosAltaPrioridad.each do |est| %>
+              <tr align="center">
+                <td><%= est.nombre %></td> 
+                <td><%= est.email %></td>
+                <td><%= est.programa.nombre %></td> 
+                <td><%= est.semestre_actual %></td>   
+              </tr>
+            <% end %> 
+            <tr>
+              <th colspan="4" style="background: #FF8080;">No Asignados</th>
+            </tr>
+            <tr style="background: #EEEEEE">
+              <th width="100px">Nombre</th>
+              <th width="100px">e-mail</th>
+              <th width="100px">Programa</th>
+              <th width="80px">Semestre</th>
+            </tr>
+            <% @noAsignadosAltaPrioridad.each do |est| %>
+              <tr>
+                <td><%= est.nombre %></td> 
+                <td><%= est.email %></td>
+                <td><%= est.programa.nombre %></td> 
+                <td><%= est.semestre_actual %></td>   
+              </tr>
+            <% end %> 
+        </table>
+      </td>
+    </tr>
+  </table>
+  
+  <table width="100%">
+    <tr>
+      <td>Estudiantes del Programa (<%= @asignadosMismaMaestria.count %>)</td>
+      <td width="100px"><div align="center" id="estadoT" onClick="desplegar('tabla_a_desplegar2','estadoT2', 'estadoTfila2')" style="background: #EE8800; cursor: pointer;">Mostrar</div></td>
+    </tr>
+    <tr>
+      <td align="center" border="3" colspan="2">
+        <table id="tabla_a_desplegar2" style="display:none;">
+            <tr>
+              <th colspan="4" style="background: #B0FFB0;">Asignados</th>
+            </tr>
+            <tr style="background: #EEEEEE">
+              <th width="500px">Nombre</th>
+              <th width="500px">e-mail</th>
+              <th width="100px">Programa</th>
+              <th width="80px">Semestre</th>
+            </tr>
+            <% @asignadosMismaMaestria.each do |est| %>
+              <tr align="center">
+                <td><%= est.nombre %></td> 
+                <td><%= est.email %></td>
+                <td><%= est.programa.nombre %></td> 
+                <td><%= est.semestre_actual %></td>   
+              </tr>
+            <% end %> 
+            <tr>
+              <th colspan="4" style="background: #FF8080;">No Asignados</th>
+            </tr>
+            <tr style="background: #EEEEEE">
+              <th width="100px">Nombre</th>
+              <th width="100px">e-mail</th>
+              <th width="100px">Programa</th>
+              <th width="80px">Semestre</th>
+            </tr>
+            <% @noAsignadosMismaMaestria.each do |est| %>
+              <tr>
+                <td><%= est.nombre %></td> 
+                <td><%= est.email %></td>
+                <td><%= est.programa.nombre %></td> 
+                <td><%= est.semestre_actual %></td>   
+              </tr>
+            <% end %> 
+        </table>
+      </td>
+    </tr>
+  </table>
+  
+ <table width="100%">
+    <tr>
+      <td>Estudiantes de otro Programa (<%= @asignadosOtraMaestria.count %>)</td>
+      <td width="100px"><div align="center" id="estadoT" onClick="desplegar('tabla_a_desplegar3','estadoT3', 'estadoTfila3')" style="background: #EE8800; cursor: pointer;">Mostrar</div></td>
+    </tr>
+    <tr>
+      <td align="center" border="3" colspan="2">
+        <table id="tabla_a_desplegar3" style="display:none;">
+            <tr>
+              <th colspan="4" style="background: #B0FFB0;">Asignados</th>
+            </tr>
+            <tr style="background: #EEEEEE">
+              <th width="500px">Nombre</th>
+              <th width="500px">e-mail</th>
+              <th width="100px">Programa</th>
+              <th width="80px">Semestre</th>
+            </tr>
+            <% @asignadosOtraMaestria.each do |est| %>
+              <tr align="center">
+                <td><%= est.nombre %></td> 
+                <td><%= est.email %></td>
+                <td><%= est.programa.nombre %></td> 
+                <td><%= est.semestre_actual %></td>   
+              </tr>
+            <% end %> 
+            <tr>
+              <th colspan="4" style="background: #FF8080;">No Asignados</th>
+            </tr>
+            <tr style="background: #EEEEEE">
+              <th width="100px">Nombre</th>
+              <th width="100px">e-mail</th>
+              <th width="100px">Programa</th>
+              <th width="80px">Semestre</th>
+            </tr>
+            <% @noAsignadosOtraMaestria.each do |est| %>
+              <tr>
+                <td><%= est.nombre %></td> 
+                <td><%= est.email %></td>
+                <td><%= est.programa.nombre %></td> 
+                <td><%= est.semestre_actual %></td>   
+              </tr>
+            <% end %> 
+        </table>
+      </td>
+    </tr>
+  </table>
 
-    <% @estMaestria.each do |dem| %>
-      <tr>
-        <td><%= dem.nombre %></td>
-        <td>Maestria</td>   
-      </tr>
-    <% end %>
-    
-     <% @estOtraMaestria.each do |dem| %>
-      <tr>
-        <td><%= dem.nombre %></td>
-        <td>Otra maestria</td>  
-      </tr>
-    <% end %>
-  </tbody>
-  
-  
-</table>
+  <table width="100%">
+    <tr>
+      <td>Estudiantes de Pregrado (<%= @asignadosPregrado.count %>)</td>
+      <td width="100px"><div align="center" id="estadoT" onClick="desplegar('tabla_a_desplegar4','estadoT4', 'estadoTfila4')" style="background: #EE8800; cursor: pointer;">Mostrar</div></td>
+    </tr>
+    <tr>
+      <td align="center" border="3" colspan="2">
+        <table id="tabla_a_desplegar4" style="display:none;">
+            <tr>
+              <th colspan="4" style="background: #B0FFB0;">Asignados</th>
+            </tr>
+            <tr style="background: #EEEEEE">
+              <th width="500px">Nombre</th>
+              <th width="500px">e-mail</th>
+              <th width="100px">Programa</th>
+              <th width="80px">Semestre</th>
+            </tr>
+            <% @asignadosPregrado.each do |est| %>
+              <tr align="center">
+                <td><%= est.nombre %></td> 
+                <td><%= est.email %></td>
+                <td><%= est.programa.nombre %></td> 
+                <td><%= est.semestre_actual %></td>   
+              </tr>
+            <% end %> 
+            <tr>
+              <th colspan="4" style="background: #FF8080;">No Asignados</th>
+            </tr>
+            <tr style="background: #EEEEEE">
+              <th width="100px">Nombre</th>
+              <th width="100px">e-mail</th>
+              <th width="100px">Programa</th>
+              <th width="80px">Semestre</th>
+            </tr>
+            <% @noAsignadosPregrado.each do |est| %>
+              <tr>
+                <td><%= est.nombre %></td> 
+                <td><%= est.email %></td>
+                <td><%= est.programa.nombre %></td> 
+                <td><%= est.semestre_actual %></td>   
+              </tr>
+            <% end %> 
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>

@@ -2,12 +2,15 @@
 <html>
 <head>
   <title>Koordinosky</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true%>
 </head>
 <body>
-
+	<header>
+		<%= image_tag("Koordinosky.png", :alt => "Sample App", :class => "round", :height => "25%", :width => "25%", :align => "center", :style=>'padding-left:1000px;') %>
+	</header>
 <%= yield %>
 
 </body>

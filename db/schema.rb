@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20130904193151) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "cursadas", id: false, force: true do |t|
     t.integer  "curso_id"
     t.integer  "estudiante_id"

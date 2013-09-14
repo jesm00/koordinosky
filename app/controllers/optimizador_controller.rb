@@ -12,24 +12,32 @@ class OptimizadorController < ApplicationController
 		if curso.nil?
 			curso=Curso.first()
 		end
-		cupos=50
-		@ofertaCurso=Oferta.new(curso,cupos)
+		@nCuposTotales=6
+		@nCuposAsignados=0
+		@asignados= Hash.new
+		@ofertaCurso=Oferta.new(curso,@nCuposTotales)
 		
 		#Hacer calculos necesarios
 		calcularDemanda()
-		
+		asignarEstudiantesAltaPrioridad()
+		separarEstudiantes()
+		asignarCuposMismaMaestria()
+		asignarCuposOtraMaestria()
+		asignarCuposPregrado()
+		reasignarCuposSobrantes()
 		#Hacer render a la pagina resultado
 		render "optimizador/asignacion"
 	end
 	
 	def calcularDemanda
+		#@asignados[id_estudiante]=true
+		#if @asignados[id_estudiante].nil?
 		#Buscar los planes de estudio de los estudiantes donde aparece esta materia
 		@demanda=Plan.where(curso_id: @ofertaCurso.materia.id)
 		#Contar la demanda de los estudiantes
 		@demandaCurso=@demanda.count
 		#Separar a los estudiantes entre los de maestría (o maestrias de la materia en caso de que sea valida
 		#para mas de una, los de tras maestrias y los de pregrado 
-		separarEstudiantes()
 	end
 	
 	def calcularDemandaTodos
@@ -43,6 +51,27 @@ class OptimizadorController < ApplicationController
 		render "optimizador/demanda"
 	end
 	
+	def asignarEstudiantesAltaPrioridad
+		@estAltaPrioridad=Array.new
+		@demanda.each do |plan|
+			if plan.estudiante.semestre_actual == plan.estudiante.programa.duracion
+				@estAltaPrioridad.push(plan.estudiante)
+			end
+		end
+		@asignadosAltaPrioridad=Array.new
+		@noAsignadosAltaPrioridad=Array.new
+		@estAltaPrioridad.each do |est|
+			nCuposRestantes=@nCuposTotales-@nCuposAsignados
+			if nCuposRestantes > 0
+				@asignadosAltaPrioridad.push(est)
+				@asignados[est.id]=true
+				@nCuposAsignados=@nCuposAsignados+1
+			else
+				@noAsignadosAltaPrioridad.push(est)
+			end
+		end
+	end
+
 	def separarEstudiantes
 		@estMaestria=Array.new
 		@estPregrado=Array.new
@@ -62,6 +91,100 @@ class OptimizadorController < ApplicationController
 				end
 			end
 			
+		end
+	end
+
+	def asignarCuposMismaMaestria
+		cuposdisponibles=((@nCuposTotales-@nCuposAsignados)*0.5).ceil
+	    @asignadosMismaMaestria=Array.new
+	    @noAsignadosMismaMaestria=Array.new
+	    @estMaestria.each do |est|
+	    	if not(@asignados[est.id])
+	    		if cuposdisponibles>0
+	    			@asignadosMismaMaestria.push(est)
+	    			@asignados[est.id]=true
+	    			cuposdisponibles=cuposdisponibles-1
+	    			@nCuposAsignados=@nCuposAsignados+1
+		    	else
+		    		@noAsignadosMismaMaestria.push(est)
+	    		end
+	    	end
+		end
+	end
+
+	def asignarCuposOtraMaestria
+		cuposdisponibles=((@nCuposTotales-@nCuposAsignados)*0.3).ceil
+	    @asignadosOtraMaestria=Array.new
+	    @noAsignadosOtraMaestria=Array.new
+	    @estOtraMaestria.each do |est|
+	    	if not(@asignados[est.id])
+	    		if cuposdisponibles>0
+	    			@asignadosOtraMaestria.push(est)
+	    			@asignados[est.id]=true
+	    			cuposdisponibles=cuposdisponibles-1
+	    			@nCuposAsignados=@nCuposAsignados+1
+		    	else
+		    		@noAsignadosOtraMaestria.push(est)
+	    		end
+	    	end
+		end
+	end
+
+	def asignarCuposPregrado
+		cuposdisponibles=((@nCuposTotales-@nCuposAsignados)*0.2).ceil
+	    @asignadosPregrado=Array.new
+	    @noAsignadosPregrado=Array.new
+	    @estPregrado.each do |est|
+	    	if not(@asignados[est.id])
+	    		if cuposdisponibles>0
+	    			@asignadosPregrado.push(est)
+	    			@asignados[est.id]=true
+	    			cuposdisponibles=cuposdisponibles-1
+	    			@nCuposAsignados=@nCuposAsignados+1
+		    	else
+		    		@noAsignadosPregrado.push(est)
+	    		end
+	    	end
+		end
+	end
+
+	def reasignarCuposSobrantes
+		cuposdisponibles=@nCuposTotales-@nCuposAsignados
+		if cuposdisponibles>0
+		    @noAsignadosMismaMaestria.each do |est|
+		    	if not(@asignados[est.id])
+		    		if cuposdisponibles>0
+		    			@asignadosMismaMaestria.push(est)
+		    			@asignados[est.id]=true
+		    			cuposdisponibles=cuposdisponibles-1
+		    			@nCuposAsignados=@nCuposAsignados+1
+		    		end
+		    	end
+		    end
+	    	if cuposdisponibles>0
+	    		@noAsignadosOtraMaestria.each do |est|
+		    		if not(@asignados[est.id])
+			    		if cuposdisponibles>0
+			    			@asignadosOtraMaestria.push(est)
+			    			@asignados[est.id]=true
+			    			cuposdisponibles=cuposdisponibles-1
+			    			@nCuposAsignados=@nCuposAsignados+1
+			    		end
+			    	end
+			    end
+		    	if cuposdisponibles>0
+		    		@noAsignadosPregrado.each do |est|
+				    	if not(@asignados[est.id])
+				    		if cuposdisponibles>0
+				    			@asignadosPregrado.push(est)
+				    			@asignados[est.id]=true
+				    			cuposdisponibles=cuposdisponibles-1
+				    			@nCuposAsignados=@nCuposAsignados+1
+				    		end
+				    	end
+				    end
+			    end
+		    end
 		end
 	end
 end
