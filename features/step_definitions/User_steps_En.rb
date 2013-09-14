@@ -31,4 +31,10 @@ Then(/^I should see "(.*?)"$/) do |regexp|
   page.should have_content(regexp)
 end
 
+Then(/^I should see content "(.*?)" in table "(.*?)" in the position "(.*?)", "(.*?)"$/) do |text, table, row, column|
+  	within ('table#'+table+' tr:nth-child('+row+') td:nth-child('+column+')') do
+  		page.should have_content text
+	end
+end
+
 
