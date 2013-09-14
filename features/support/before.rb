@@ -20,16 +20,16 @@ Before do |scenario|
 
 
 		#Todos los estudiantes quieren ver el curso 1
-		Plan.create(:curso_id=>curso1.id,:estudiante_id => estudiante1.id)
-		Plan.create(:curso_id=>curso1.id,:estudiante_id => estudiante2.id)
-		Plan.create(:curso_id=>curso1.id,:estudiante_id => estudiante3.id)
+		Plan.create(:curso_id=>curso3.id,:estudiante_id => estudiante1.id)
+		Plan.create(:curso_id=>curso3.id,:estudiante_id => estudiante2.id)
+		Plan.create(:curso_id=>curso3.id,:estudiante_id => estudiante3.id)
 
 		#2 de los estudiantes quieren ver el curso 2
 		Plan.create(:curso_id=>curso2.id,:estudiante_id => estudiante1.id)
 		Plan.create(:curso_id=>curso2.id,:estudiante_id => estudiante2.id)
 
 		#1 de los estudiantes quieren ver el curso 3
-		Plan.create(:curso_id=>curso2.id,:estudiante_id => estudiante1.id)
+		Plan.create(:curso_id=>curso1.id,:estudiante_id => estudiante1.id)
 	end
   
 end
