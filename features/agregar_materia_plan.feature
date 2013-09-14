@@ -5,7 +5,7 @@ Feature: Agregar materia al plan de estudios individual
 	I want to agregar una materia a mi plan de estudios
 
 
-	Scenario: Materia invalida
+	Scenario: Agregar materia invalida
 		Given I am on "/estudiantes/seleccionar"
 		When I select "Estudiante prueba" in "estudiante_id"
 		And I click button "Seleccionar estudiante"
@@ -14,7 +14,7 @@ Feature: Agregar materia al plan de estudios individual
 		When I click button "Agregar materia"
 		Then I should see "Por favor seleccione un curso"
 
-	Scenario: Exitoso
+	Scenario: Agregar materia valida
 		Given I am on "/estudiantes/seleccionar"
 		When I select "Estudiante prueba" in "estudiante_id"
 		And I click button "Seleccionar estudiante"
@@ -25,7 +25,7 @@ Feature: Agregar materia al plan de estudios individual
 		Then I should see "Plan de estudios del estudiante Estudiante prueba"
 		And I should see "Curso prueba"
 
-	Scenario: Plan ya existe
+	Scenario: Agregar materia repetida
 		Given I am on "/estudiantes/seleccionar"
 		When I select "Estudiante prueba" in "estudiante_id"
 		And I click button "Seleccionar estudiante"
