@@ -34,28 +34,42 @@ class PlansController < ApplicationController
   # POST /plans
   # POST /plans.json
   def create
-	#Revisar que la materia no exista previamente en el plan de estudios del estudiante
-    if not(Plan.exists?(estudiante_id: $estudiante.id,curso_id: params[:plan][:curso_id]))
-		#De no existir se intenta agregar al plan de estudios
-		@plan = Plan.new(plan_params)
+    #Revisar que haya seleccionado un curso
+    if params[:plan]
+  	   #Revisar que la materia no exista previamente en el plan de estudios del estudiante
+      if not(Plan.exists?(estudiante_id: $estudiante.id,curso_id: params[:plan][:curso_id]))
+  		  #De no existir se intenta agregar al plan de estudios
+  		  @plan = Plan.new(plan_params)
 
-		respond_to do |format|
-		  if @plan.save
-			format.html { redirect_to @plan, notice: 'Plan was successfully created.' }
-			format.json { render action: 'show', status: :created, location: @plan }
-		  else
-			format.html { render action: 'new' }
-			format.json { render json: @plan.errors, status: :unprocessable_entity }
-		  end
-		end
-	else
-		@plan = Plan.new(plan_params)
-		@plan.errors.add(:base, "La materia seleccionada ya esta en su plan de estudios ")
-		respond_to do |format|
-			format.html { render action: 'new' }
-			format.json { render json: @plan.errors, status: :unprocessable_entity }
-		end
-	end
+    		respond_to do |format|
+    		  if @plan.save
+    			format.html { redirect_to @plan, notice: 'Plan was successfully created.' }
+    			format.json { render action: 'show', status: :created, location: @plan }
+    		  else
+    			format.html { render action: 'new' }
+    			format.json { render json: @plan.errors, status: :unprocessable_entity }
+    		  end
+    		end
+  	  else
+    		@plan = Plan.new(plan_params)
+    		@plan.errors.add(:base, "La materia seleccionada ya esta en su plan de estudios ")
+    		respond_to do |format|
+    			format.html { render action: 'new' }
+    			format.json { render json: @plan.errors, status: :unprocessable_entity }
+  		  end
+  	  end
+    else
+      params[:plan]=Hash.new
+      params[:plan][:curso_id]='0'
+      params[:plan][:estudiante_id]=$estudiante.id.to_s
+      params.require(:plan).permit(:curso_id, :estudiante_id)
+      @plan = Plan.new(plan_params)
+      @plan.errors.add(:base, "Por favor seleccione un curso")
+      respond_to do |format|
+        format.html { render action: 'new' }
+        format.json { render json: @plan.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # PATCH/PUT /plans/1
