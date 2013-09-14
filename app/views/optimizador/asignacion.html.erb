@@ -1,24 +1,4 @@
-<head>
-  <script type="teXt/javascript">
-    function desplegar(tabla_a_desplegar,estadoT, estadoTfila) 
-    {
-      var tablA = document.getElementById(tabla_a_desplegar);
-      var estadOt = document.getElementById(estadoT);
-      var fila = document.getElementById(estadoTfila);
-      switch(tablA.style.display) 
-      {
-        case "none":
-          tablA.style.display = "block";
-          estadOt.innerHTML = "Ocultar";
-          break;
-        default:
-          tablA.style.display = "none";
-          estadOt.innerHTML = "Mostrar"
-          break;
-      }
-    }
-  </script>
-  
+<head> 
   <style type="text/css">
     table
     {
@@ -62,7 +42,7 @@
     <table width="100%">
       <tr>
         <td>Estudiantes Interasados (<%= @demanda.count %>)</td>
-        <td width="100px"><div align="center" id="estadoT" onClick="desplegar('tabla_a_desplegar5','estadoT5', 'estadoTfila5')" style="background: #EE8800; cursor: pointer;">Mostrar</div></td>
+        <td width="100px"><div align="center" id="estadoT5" onClick="desplegar('tabla_a_desplegar5','estadoT5', 'estadoTfila5')" style="background: #EE8800; cursor: pointer;">Mostrar</div></td>
       </tr>
       <tr>
         <td align="center" border="3" colspan="2">
@@ -140,7 +120,7 @@
   <table width="100%">
     <tr>
       <td>Estudiantes del Programa (<%= @asignadosMismaMaestria.count %>)</td>
-      <td width="100px"><div align="center" id="estadoT" onClick="desplegar('tabla_a_desplegar2','estadoT2', 'estadoTfila2')" style="background: #EE8800; cursor: pointer;">Mostrar</div></td>
+      <td width="100px"><div align="center" id="estadoT2" onClick="desplegar('tabla_a_desplegar2','estadoT2', 'estadoTfila2')" style="background: #EE8800; cursor: pointer;">Mostrar</div></td>
     </tr>
     <tr>
       <td align="center" border="3" colspan="2">
@@ -187,7 +167,7 @@
  <table width="100%">
     <tr>
       <td>Estudiantes de otro Programa (<%= @asignadosOtraMaestria.count %>)</td>
-      <td width="100px"><div align="center" id="estadoT" onClick="desplegar('tabla_a_desplegar3','estadoT3', 'estadoTfila3')" style="background: #EE8800; cursor: pointer;">Mostrar</div></td>
+      <td width="100px"><div align="center" id="estadoT3" onClick="desplegar('tabla_a_desplegar3','estadoT3', 'estadoTfila3')" style="background: #EE8800; cursor: pointer;">Mostrar</div></td>
     </tr>
     <tr>
       <td align="center" border="3" colspan="2">
@@ -234,7 +214,7 @@
   <table width="100%">
     <tr>
       <td>Estudiantes de Pregrado (<%= @asignadosPregrado.count %>)</td>
-      <td width="100px"><div align="center" id="estadoT" onClick="desplegar('tabla_a_desplegar4','estadoT4', 'estadoTfila4')" style="background: #EE8800; cursor: pointer;">Mostrar</div></td>
+      <td width="100px"><div align="center" id="estadoT4" onClick="desplegar('tabla_a_desplegar4','estadoT4', 'estadoTfila4')" style="background: #EE8800; cursor: pointer;">Mostrar</div></td>
     </tr>
     <tr>
       <td align="center" border="3" colspan="2">

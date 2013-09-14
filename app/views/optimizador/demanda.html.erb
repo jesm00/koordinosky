@@ -1,24 +1,22 @@
-<h1>Demanda de los cursos registrados</h1>
-<table>
-  <thead>
-    <tr>
-      <th>Curso</th>
-      <th>Demanda</th>
-      <th>Opciones</th>
-    </tr>
-  </thead>
+<div align="center">
+	<h1>Demanda de los cursos registrados</h1>
+	<table  border="1">
+	  <thead>
+		<tr>
+		  <th align="center">Curso</th>
+		  <th align="center">Demanda</th>
+		  <th align="center">Opciones</th>
+		</tr>
+	  </thead>
 
-  <tbody>
-    <% @res.each do |dem| %>
-      <tr>
-        <td><%= dem.nombre %></td>
-        <td><%= dem.demanda %></td> 
-        <td><p><%=link_to "Obtener asignacion de cupos",:controller => "optimizador", :action => "asignacionCupos", :curso_id => dem.id_curso%></p></td>         
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'Agregar materia al plan de estudios', new_plan_path %>
+	  <tbody>
+		<% @res.each do |dem| %>
+		  <tr>
+			<td align="center"><%= dem.nombre %></td>
+			<td align="center"><%= dem.demanda %></td> 
+			<td align="center"><p><%=link_to "Obtener asignacion de cupos",:controller => "optimizador", :action => "asignacionCupos", :curso_id => dem.id_curso%></p></td>         
+		  </tr>
+		<% end %>
+	  </tbody>
+	</table>
+</div>
