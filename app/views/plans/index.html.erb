@@ -3,9 +3,6 @@
   <thead>
     <tr>
       <th>Curso</th>
-      <th></th>
-      <th></th>
-      <th></th>
     </tr>
   </thead>
 
@@ -13,9 +10,6 @@
     <% @plans.each do |plan| %>
       <tr>
         <td><%= plan.curso.nombre %></td>
-        <td><%= link_to 'Show', plan %></td>
-        <td><%= link_to 'Edit', edit_plan_path(plan) %></td>
-        <td><%= link_to 'Destroy', plan, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

@@ -9,14 +9,18 @@
       <% end %>
       </ul>
     </div>
-  <% end %>
+  <% end %>  
   <div class="field">
-	<%= f.select(:curso_id, 
-	    options_from_collection_for_select(Curso.all, :id, :nombre)
-	    )
-	%>
+	<table>
+		<% Curso.all.each do |cu| %>
+			<tr>
+				<td><%= f.label :curso_id, cu.nombre %></td>
+				<td><%= f.radio_button :curso_id, cu.id %></td>
+			</tr>
+		<% end %>
+	</table>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Agregar materia"%>
   </div>
 <% end %>
