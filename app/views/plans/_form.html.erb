@@ -14,7 +14,7 @@
 	<table>
 		<% Curso.all.each do |cu| %>
 			<tr>
-				<td><%= f.label :curso_id, cu.nombre %></td>
+				<td><%= f.label :curso_id, cu.nombre, :value => cu.id%></td>
 				<td><%= f.radio_button :curso_id, cu.id %></td>
 			</tr>
 		<% end %>
