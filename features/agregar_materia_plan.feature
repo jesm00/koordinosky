@@ -11,7 +11,7 @@ Feature: Agregar materia al plan de estudios individual
 		And I click button "Seleccionar estudiante"
 		And I click link "Agregar materia"
 		And I click link "Agregar materia al plan de estudios"
-		When I click button "Agregar materia"
+		And I click button "Agregar materia"
 		Then I should see "Por favor seleccione un curso"
 
 	Scenario: Agregar materia valida
@@ -20,7 +20,7 @@ Feature: Agregar materia al plan de estudios individual
 		And I click button "Seleccionar estudiante"
 		And I click link "Agregar materia"
 		And I click link "Agregar materia al plan de estudios"
-		When I choose "Curso prueba"
+		And I choose "Curso prueba"
 		And I click button "Agregar materia"
 		Then I should see "Plan de estudios del estudiante Estudiante prueba"
 		And I should see "Curso prueba"
@@ -34,6 +34,6 @@ Feature: Agregar materia al plan de estudios individual
 		And I choose "Curso prueba"
 		And I click button "Agregar materia"
 		And I click link "Agregar materia al plan de estudios"
-		When I choose "Curso prueba"
+		And I choose "Curso prueba"
 		And I click button "Agregar materia"
 		Then I should see "La materia seleccionada ya esta en su plan de estudios"
