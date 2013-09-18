@@ -12,7 +12,7 @@ class OptimizadorController < ApplicationController
 		if curso.nil?
 			curso=Curso.first()
 		end
-		@nCuposTotales=6
+		@nCuposTotales=12
 		@nCuposAsignados=0
 		@asignados= Hash.new
 		@ofertaCurso=Oferta.new(curso,@nCuposTotales)
@@ -150,39 +150,55 @@ class OptimizadorController < ApplicationController
 
 	def reasignarCuposSobrantes
 		cuposdisponibles=@nCuposTotales-@nCuposAsignados
+		asignadosMaestria=Array.new
+		asignadosOtra=Array.new
+		asignadosPre=Array.new
 		if cuposdisponibles>0
 		    @noAsignadosMismaMaestria.each do |est|
 		    	if not(@asignados[est.id])
 		    		if cuposdisponibles>0
 		    			@asignadosMismaMaestria.push(est)
+		    			asignadosMaestria.push(est)
 		    			@asignados[est.id]=true
 		    			cuposdisponibles=cuposdisponibles-1
 		    			@nCuposAsignados=@nCuposAsignados+1
 		    		end
 		    	end
 		    end
+		    asignadosMaestria.each do |est|
+				@noAsignadosMismaMaestria.delete(est)
+		    end
 	    	if cuposdisponibles>0
 	    		@noAsignadosOtraMaestria.each do |est|
 		    		if not(@asignados[est.id])
 			    		if cuposdisponibles>0
 			    			@asignadosOtraMaestria.push(est)
+		    				asignadosOtra.push(est)
 			    			@asignados[est.id]=true
 			    			cuposdisponibles=cuposdisponibles-1
 			    			@nCuposAsignados=@nCuposAsignados+1
 			    		end
 			    	end
 			    end
+
+		    asignadosOtra.each do |est|
+			    @noAsignadosOtraMaestria.delete(est)
+		    end
 		    	if cuposdisponibles>0
 		    		@noAsignadosPregrado.each do |est|
 				    	if not(@asignados[est.id])
 				    		if cuposdisponibles>0
 				    			@asignadosPregrado.push(est)
+		    					asignadosPre.push(est)
 				    			@asignados[est.id]=true
 				    			cuposdisponibles=cuposdisponibles-1
 				    			@nCuposAsignados=@nCuposAsignados+1
 				    		end
 				    	end
 				    end
+			asignadosPre.each do |est|
+				@noAsignadosPregrado.delete(est)
+		    end
 			    end
 		    end
 		end

@@ -32,9 +32,12 @@ Then(/^I should see "(.*?)"$/) do |regexp|
 end
 
 Then(/^I should see content "(.*?)" in table "(.*?)" in the position "(.*?)", "(.*?)"$/) do |text, table, row, column|
-  	within ('table#'+table+' tr:nth-child('+row+') td:nth-child('+column+')') do
+  	within (first('table#'+table+' tr:nth-child('+row+') td:nth-child('+column+')')) do
   		page.should have_content text
 	end
 end
 
 
+Then(/^I should see nested content "(.*?)" in table "(.*?)" inside table "(.*?)" in the position "(.*?)", "(.*?)"$/) do |text, table, table2, row, column|  
+  find(:xpath, "//table[@id='"+table2+"']/tr[2]/td[1]/table[@id='"+tabla+"']/tr["+row+"]/td["+column+"]").should have_content text
+end

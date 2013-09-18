@@ -26,22 +26,22 @@
 
 <h1>Asignación de cupos para <%= @ofertaCurso.materia.nombre %></h1>
 
-<table border="px" width="100%">
+<table id="table_info_curso" border="px" width="100%">
   <body>
     <tr style="background: #FFBA75">
-      <th colspan="2">Información del Curso</th>
+      <td colspan="2">Información del Curso</td>
     </tr> 
     <tr>
-      <th>Nombre: <%= @ofertaCurso.materia.nombre %></th>
-      <th>Programa: </th>
+      <td>Nombre: <%= @ofertaCurso.materia.nombre %></td>
+      <td>Programa: <%=@ofertaCurso.materia.programas.first.nombre%></td>
     </tr> 
     <tr>
-      <th>Cupos Totales: <%= @nCuposTotales %></th>
-      <th>Cupos Asignados: <%= @nCuposAsignados%></th>
+      <td>Cupos Totales: <%= @nCuposTotales %></td>
+      <td>Cupos Asignados: <%= @nCuposAsignados%></td>
     </tr>
-    <table width="100%">
+    <table id="table_interesados" width="100%">
       <tr>
-        <td>Estudiantes Interasados (<%= @demanda.count %>)</td>
+        <td>Estudiantes Interesados (<%= @demanda.count %>)</td>
         <td width="100px"><div align="center" id="estadoT5" onClick="desplegar('tabla_a_desplegar5','estadoT5', 'estadoTfila5')" style="background: #EE8800; cursor: pointer;">Mostrar</div></td>
       </tr>
       <tr>
@@ -70,14 +70,14 @@
 <h1> Detalles de Asignación</h1>
 
 <body>
-  <table width="100%">
+  <table id="tabla_prioridad_alta" width="100%">
     <tr>
       <td>Estudiantes de Alta Prioridad (<%= @asignadosAltaPrioridad.count %>)</td>
-      <td width="100px"><div align="center" id="estadoT" onClick="desplegar('tabla_a_desplegar','estadoT', 'estadoTfila')" style="background: #EE8800; cursor: pointer;">Mostrar</div></td>
+      <td width="100px"><div align="center" id="estadoT" onClick="desplegar('tabla_a_desplegar','estadoT', 'estadoTfila')" style="background: #EE8800; cursor: pointer;">Ocultar</div></td>
     </tr>
     <tr>
       <td align="center" border="3" colspan="2">
-        <table  id="tabla_a_desplegar" style="display:none;">
+        <table  id="tabla_a_desplegar" style="display:block;">
             <tr>
               <th colspan="4" style="background: #B0FFB0;">Asignados</th>
             </tr>
@@ -117,14 +117,14 @@
     </tr>
   </table>
   
-  <table width="100%">
+  <table id="tabla_misma_maestria" width="100%">
     <tr>
       <td>Estudiantes del Programa (<%= @asignadosMismaMaestria.count %>)</td>
-      <td width="100px"><div align="center" id="estadoT2" onClick="desplegar('tabla_a_desplegar2','estadoT2', 'estadoTfila2')" style="background: #EE8800; cursor: pointer;">Mostrar</div></td>
+      <td width="100px"><div align="center" id="estadoT2" onClick="desplegar('tabla_a_desplegar2','estadoT2', 'estadoTfila2')" style="background: #EE8800; cursor: pointer;">Ocultar</div></td>
     </tr>
     <tr>
       <td align="center" border="3" colspan="2">
-        <table id="tabla_a_desplegar2" style="display:none;">
+        <table id="tabla_a_desplegar2" style="display:block;">
             <tr>
               <th colspan="4" style="background: #B0FFB0;">Asignados</th>
             </tr>
@@ -164,14 +164,14 @@
     </tr>
   </table>
   
- <table width="100%">
+ <table id="tabla_otra_maestria" width="100%">
     <tr>
       <td>Estudiantes de otro Programa (<%= @asignadosOtraMaestria.count %>)</td>
-      <td width="100px"><div align="center" id="estadoT3" onClick="desplegar('tabla_a_desplegar3','estadoT3', 'estadoTfila3')" style="background: #EE8800; cursor: pointer;">Mostrar</div></td>
+      <td width="100px"><div align="center" id="estadoT3" onClick="desplegar('tabla_a_desplegar3','estadoT3', 'estadoTfila3')" style="background: #EE8800; cursor: pointer;">Ocultar</div></td>
     </tr>
     <tr>
       <td align="center" border="3" colspan="2">
-        <table id="tabla_a_desplegar3" style="display:none;">
+        <table id="tabla_a_desplegar3" style="display:block;">
             <tr>
               <th colspan="4" style="background: #B0FFB0;">Asignados</th>
             </tr>
@@ -211,14 +211,14 @@
     </tr>
   </table>
 
-  <table width="100%">
+  <table id="tabla_pregrado" width="100%">
     <tr>
       <td>Estudiantes de Pregrado (<%= @asignadosPregrado.count %>)</td>
-      <td width="100px"><div align="center" id="estadoT4" onClick="desplegar('tabla_a_desplegar4','estadoT4', 'estadoTfila4')" style="background: #EE8800; cursor: pointer;">Mostrar</div></td>
+      <td width="100px"><div align="center" id="estadoT4" onClick="desplegar('tabla_a_desplegar4','estadoT4', 'estadoTfila4')" style="background: #EE8800; cursor: pointer;">Ocultar</div></td>
     </tr>
     <tr>
       <td align="center" border="3" colspan="2">
-        <table id="tabla_a_desplegar4" style="display:none;">
+        <table id="tabla_a_desplegar4" style="display:block;">
             <tr>
               <th colspan="4" style="background: #B0FFB0;">Asignados</th>
             </tr>
