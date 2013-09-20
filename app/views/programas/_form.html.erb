@@ -1,7 +1,7 @@
 <%= form_for(@programa) do |f| %>
   <% if @programa.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@programa.errors.count, "error") %> prohibited this programa from being saved:</h2>
+      <div class="alert alert-error"><%= pluralize(@programa.errors.count, "error") %> prohibited this programa from being saved:</div>
 
       <ul>
       <% @programa.errors.full_messages.each do |msg| %>
@@ -12,18 +12,18 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :nombre %><br>
+    <%= f.label :nombre %>
     <%= f.text_field :nombre %>
   </div>
   <div class="field">
-    <%= f.label :es_maestria %><br>
+    <%= f.label :es_maestria %>
     <%= f.check_box :es_maestria %>
   </div>
   <div class="field">
-    <%= f.label :duracion %><br>
+    <%= f.label :duracion %>
     <%= f.text_field :duracion %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Crear Programa", class: "btn btn-large btn-primary"%>
   </div>
 <% end %>
