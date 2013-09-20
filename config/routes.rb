@@ -1,5 +1,13 @@
 Koordinosky::Application.routes.draw do
-  root 'pages#index'
+  #root 'pages#index'
+  get '/pages/index' => 'pages#index'
+  root 'sessions#new'
+  ################# SESSIONES
+  resources :sessions, only: [:new, :create, :destroy]
+  match '/signup',  to: 'estudiantes#new',      via: 'get'
+  match '/signin',  to: 'sessions#new',         via: 'get'
+  match '/signout', to: 'sessions#destroy',     via: 'delete'
+  #################
   resources :validas
 
   resources :plans

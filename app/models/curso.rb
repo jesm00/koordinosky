@@ -11,4 +11,7 @@ class Curso < ActiveRecord::Base
 	def esValida(id_programa)	
 		return Valida.exists?(curso_id: id, programa_id: id_programa)
 	end
+##############################################VALIDACION
+  validates :nombre, presence: true, length: { maximum: 50 }
+  validates :creditos, presence: true, length: { maximum: 2 }
 end
