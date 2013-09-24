@@ -2,11 +2,10 @@ class Plan < ActiveRecord::Base
     
 	belongs_to :curso
 	
-    validates_presence_of :curso
-    validates_associated :curso
+    
+	validates :curso, :presence=>true	
     
 	belongs_to :estudiante
-		
-    validates_presence_of :estudiante
-    validates_associated :estudiante
+	
+	validates :estudiante, :presence=>true	
 end

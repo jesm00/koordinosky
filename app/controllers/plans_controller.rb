@@ -15,6 +15,19 @@ class PlansController < ApplicationController
 		$estudiante=Estudiante.first()
 	end
     @plans = Plan.where(estudiante_id:  $estudiante.id)
+    $semestres=Array.new
+
+    num_anios=($estudiante.programa.duracion-$estudiante.semestre_actual)/2+2
+
+    i=0
+    anio=2014
+    while i < num_anios  do
+      $semestres.push(anio.to_s+"10")
+      $semestres.push(anio.to_s+"19")
+      $semestres.push(anio.to_s+"20")
+      i+=1
+      anio+=1
+    end
   end
 
   # GET /plans/1
@@ -40,7 +53,6 @@ class PlansController < ApplicationController
       if not(Plan.exists?(estudiante_id: $estudiante.id,curso_id: params[:plan][:curso_id]))
   		  #De no existir se intenta agregar al plan de estudios
   		  @plan = Plan.new(plan_params)
-
     		respond_to do |format|
     		  if @plan.save
     			format.html { redirect_to @plan, notice: 'Plan was successfully created.' }
@@ -105,6 +117,9 @@ class PlansController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def plan_params
       params[:plan][:estudiante_id]=$estudiante.id.to_s
-      params.require(:plan).permit(:curso_id, :estudiante_id)
+      if not(params[:plan][:semestre])
+        params[:plan][:semestre]=$semestres.first
+      end
+      params.require(:plan).permit(:curso_id, :estudiante_id, :semestre)
     end
 end

@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130920092716) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20130924165552) do
 
   create_table "cursadas", id: false, force: true do |t|
     t.integer  "curso_id"
@@ -46,9 +43,20 @@ ActiveRecord::Schema.define(version: 20130920092716) do
   add_index "estudiantes", ["email"], name: "index_estudiantes_on_email", unique: true, using: :btree
   add_index "estudiantes", ["remember_token"], name: "index_estudiantes_on_remember_token", using: :btree
 
+  create_table "pensums", id: false, force: true do |t|
+    t.integer  "curso_id"
+    t.integer  "programa_id"
+    t.integer  "semestre"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "pensums", ["curso_id", "programa_id"], name: "index_pensums_on_curso_id_and_programa_id", using: :btree
+
   create_table "plans", id: false, force: true do |t|
     t.integer  "curso_id"
     t.integer  "estudiante_id"
+    t.integer  "semestre"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

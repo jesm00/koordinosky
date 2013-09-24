@@ -32,8 +32,9 @@ class OptimizadorController < ApplicationController
 	def calcularDemanda
 		#@asignados[id_estudiante]=true
 		#if @asignados[id_estudiante].nil?
+		#TODO recibir semestre por parametro
 		#Buscar los planes de estudio de los estudiantes donde aparece esta materia
-		@demanda=Plan.where(curso_id: @ofertaCurso.materia.id)
+		@demanda=Plan.where(curso_id: @ofertaCurso.materia.id, semestre: "201410")
 		#Contar la demanda de los estudiantes
 		@demandaCurso=@demanda.count
 		#Separar a los estudiantes entre los de maestría (o maestrias de la materia en caso de que sea valida
@@ -41,7 +42,8 @@ class OptimizadorController < ApplicationController
 	end
 	
 	def calcularDemandaTodos
-		@res=Plan.find(:all, 
+		#TODO recibir semestre por parametro
+		@res=Plan.where(semestre: "201410").find(:all, 
 		  :select => '"cursos".id as id_curso, "cursos".nombre, count(estudiante_id) as demanda', 
 		  :joins => :curso, 
 		  :group => '"cursos".id', 

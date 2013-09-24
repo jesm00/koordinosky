@@ -3,6 +3,7 @@ class CreatePlans < ActiveRecord::Migration
     create_table :plans, :id => false do |t|
 	  t.belongs_to :curso
 	  t.belongs_to :estudiante
+      t.integer :semestre
       t.timestamps
     end
     add_index :plans, [:curso_id, :estudiante_id]

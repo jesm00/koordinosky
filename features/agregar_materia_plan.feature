@@ -12,7 +12,7 @@ Feature: Agregar materia al plan de estudios individual
 		And I click link "Agregar materia"
 		And I click link "Agregar materia al plan de estudios"
 		And I click button "Agregar materia"
-		Then I should see "Por favor seleccione un curso"
+		Then I should see "Curso can't be blank"
 
 	Scenario: Agregar materia valida
 		Given I am on "/estudiantes/seleccionar"

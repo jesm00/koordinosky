@@ -26,9 +26,30 @@ class EstudiantesController < ApplicationController
   def create
     #@estudiante = @programa.estudiantes.create(estudiante_params)
     @estudiante = Estudiante.new(estudiante_params)
-
+    #TODO externalizar este valor
+    periodo_actual="201320"
     respond_to do |format|
       if @estudiante.save
+        #Asignarle pensum para los semestres que aun no a cursado
+        #Seleccionar pensum sugerido para los semestres que aun no a cursado
+        @pensums=Pensum.where(programa_id: @estudiante.programa.id).where("semestre >?", @estudiante.semestre_actual)
+        @pensums.each do |pensum|
+            #Determinar el numero de periodos en el futuro en los que debera ver el curso
+            num_sem=pensum.semestre-@estudiante.semestre_actual
+            #Determinar el año en que deberia ver el curso si sigue el pensum
+            anio=periodo_actual[0,4].to_i+(num_sem/2.0).ceil
+            #Determinar el periodo en que deberia ver el curso si sigue el pensum (1 o 2)
+            sem_actual=periodo_actual[4,2].to_i
+            if sem_actual==10
+              periodo=1+(num_sem%2)
+            else
+              periodo=2-(num_sem%2)
+            end
+
+            semestre=anio.to_s+periodo.to_s+"0"
+
+            Plan.create(:curso_id=>pensum.curso.id,:estudiante_id => @estudiante.id, :semestre => semestre)
+        end
         #sign_in @estudiante
         format.html { redirect_to @estudiante, notice: 'Estudiante was successfully created.' }
         format.json { render action: 'show', status: :created, location: @estudiante }

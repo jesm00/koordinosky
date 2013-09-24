@@ -3,6 +3,7 @@
   <thead>
     <tr>
       <th>Curso</th>
+      <th>Semestre</th>
     </tr>
   </thead>
 
@@ -10,6 +11,7 @@
     <% @plans.each do |plan| %>
       <tr>
         <td><%= plan.curso.nombre %></td>
+        <td><%= plan.semestre %></td>
       </tr>
     <% end %>
   </tbody>
