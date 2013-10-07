@@ -1,0 +1,34 @@
+<div align="center">
+	<h1>Oferta de cursos</h1>
+	<table  id="table_headers" border="1">
+	  	<thead>
+			<tr>
+		  		<th align="center" width="50px">Curso</th>
+		  		<th align="center" width="200px">Cupos</th>
+		  		<th align="center" width="100px">Eliminar sección</th>
+		  		<th align="center" width="100px">Cambiar cupos</th>
+			</tr>
+	  	</thead>
+	  	<tbody>
+	<% $ofertaDeCursos.each do |id,oferta| %>
+		  	<tr>
+				<td align="center" width="50px">				  
+    				<p width="50px"><%= oferta.materia.nombre %></p>
+    			</td>
+				<td align="center" width="200px">  
+    				<p width="200px"><%= oferta.cupos %></p>
+    			</td>   
+       			<td>
+       				<%=link_to "Eliminar curso",:controller => "optimizador", :action => "eliminarOferta", :curso_id => id%>
+       			</td>   
+       			<td>
+       				<%=link_to "Agregar cupos",:controller => "optimizador", :action => "agregarCupo", :curso_id => id%>
+       				<%=link_to "Quitar cupo",:controller => "optimizador", :action => "quitarCupo", :curso_id => id%>
+       			</td>    
+		  	</tr>
+	<% end %>
+	  	</tbody>	
+	</table>
+
+	<%= render 'formOferta' %>
+</div>
