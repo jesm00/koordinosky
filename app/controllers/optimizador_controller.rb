@@ -1,5 +1,57 @@
 class OptimizadorController < ApplicationController
 
+	def sugerirOferta
+		$ofertaDeCursos=Hash.new
+		Curso.all.each do |curso|
+			@ofertaCurso=Oferta.new(curso,30)
+			calcularDemanda()
+			@ofertaCurso.cupos=@demandaCurso
+			$ofertaDeCursos[curso.id]=@ofertaCurso
+		end
+		calcularAsignacionOferta()
+	end
+
+	def eliminarOferta
+		$ofertaDeCursos.delete(params[:curso_id].to_i)
+		calcularAsignacionOferta()
+	end
+
+	def agregarOferta
+		if not(params[:curso_id].nil?||params[:cupos].to_i<=0)
+			if $ofertaDeCursos[params[:curso_id].to_i].nil?
+				if Curso.exists?(id: params[:curso_id])
+					curso=Curso.find(params[:curso_id])
+					$ofertaDeCursos[curso.id]=Oferta.new(curso,params[:cupos].to_i)
+				end
+			else
+				$ofertaDeCursos[params[:curso_id].to_i].cupos+=params[:cupos].to_i
+			end
+		end
+		calcularAsignacionOferta()
+	end
+
+	def agregarCupo
+		if not(params[:curso_id].nil?)
+			if not ($ofertaDeCursos[params[:curso_id].to_i].nil?)
+				$ofertaDeCursos[params[:curso_id].to_i].cupos+=1
+			end
+		end
+		calcularAsignacionOferta()
+	end
+
+	def quitarCupo
+		if not(params[:curso_id].nil?)
+			if not ($ofertaDeCursos[params[:curso_id].to_i].nil?)
+				$ofertaDeCursos[params[:curso_id].to_i].cupos-=1
+			end
+		end
+		calcularAsignacionOferta()
+	end
+
+	def calcularAsignacionOferta
+		render "optimizador/displayOferta"
+	end
+
 	def asignacionCupos	
 		#TODO Recibir por parametro los cupos que se ofrecen
 		#cupos=params[:cupos].to_i
