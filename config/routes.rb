@@ -14,8 +14,6 @@ Koordinosky::Application.routes.draw do
   
   resources :validas
 
-  resources :plans
-
   resources :cursadas
 
   resources :cursos do
@@ -23,6 +21,12 @@ Koordinosky::Application.routes.draw do
 		get 'seleccionar'
 	  end
 	end
+
+  resources :plans do
+    collection do
+    get 'eliminar'
+    end
+  end
 
   resources :programas
 

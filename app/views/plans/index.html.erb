@@ -4,6 +4,7 @@
     <tr>
       <th>Curso</th>
       <th>Semestre</th>
+      <th>Eliminar</th>
     </tr>
   </thead>
 
@@ -12,6 +13,7 @@
       <tr>
         <td><%= plan.curso.nombre %></td>
         <td><%= plan.semestre %></td>
+        <td><%=link_to "Eliminar del plan de estudios",:controller => "plans", :action => "eliminar", :curso_id => plan.curso.id%></td>
       </tr>
     <% end %>
   </tbody>
