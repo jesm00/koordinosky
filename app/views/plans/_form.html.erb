@@ -11,16 +11,14 @@
     </div>
   <% end %>  
   <div class="field">
-  	<table>
-  		<% Curso.all.each do |cu| %>
-  			<tr>
-  				<td><%= f.label :curso_id, cu.nombre, :value => cu.id%></td>
-  				<td><%= f.radio_button :curso_id, cu.id %></td>
-  			</tr>
-  		<% end %>
-  	</table>
+    <%= f.label :curso_id, 'Curso a agregar:'%>
+    <%= f.select(:curso_id, 
+      options_from_collection_for_select(Curso.all, :id, :nombre)
+      )
+    %>
   </div>
   <div class="field">
+    <%= f.label :semestre, 'Semestre:'%>
     <%= f.select(:semestre, 
       $semestres.map { |value| [ value, value ] }
       )
