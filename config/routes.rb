@@ -38,12 +38,26 @@ Koordinosky::Application.routes.draw do
 	  
   get '/optimizador/asignacionCupos' => 'optimizador#asignacionCupos'
   post '/optimizador/asignacionCupos' => 'optimizador#asignacionCupos'
+
+  get '/optimizador/sugerirOferta' => 'optimizador#sugerirOferta'
+  post '/optimizador/sugerirOferta' => 'optimizador#sugerirOferta'
   
   
   get '/optimizador/demanda' => 'optimizador#calcularDemandaTodos'
   post '/optimizador/demanda' => 'optimizador#calcularDemandaTodos'
-  
-  
+
+  get '/optimizador/eliminarOferta' => 'optimizador#eliminarOferta'
+  post '/optimizador/eliminarOferta' => 'optimizador#eliminarOferta'
+    
+  get '/optimizador/agregarOferta' => 'optimizador#agregarOferta'
+  post '/optimizador/agregarOferta' => 'optimizador#agregarOferta' 
+    
+  get '/optimizador/agregarCupo' => 'optimizador#agregarCupo'
+  post '/optimizador/agregarCupo' => 'optimizador#agregarCupo' 
+
+  get '/optimizador/quitarCupo' => 'optimizador#quitarCupo'
+  post '/optimizador/quitarCupo' => 'optimizador#quitarCupo'
+
   get ':action' => 'pages'
   post ':action' => 'pages'
 
