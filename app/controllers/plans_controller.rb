@@ -1,5 +1,5 @@
 class PlansController < ApplicationController
-  before_action :set_plan, only: [:show, :edit, :update, :destroy]
+  before_action :set_plan, only: [:show, :edit, :update]
 
   # GET /plans
   # GET /plans.json
@@ -55,7 +55,7 @@ class PlansController < ApplicationController
   		  @plan = Plan.new(plan_params)
     		respond_to do |format|
     		  if @plan.save
-    			format.html { redirect_to @plan, notice: 'Plan was successfully created.' }
+    			format.html { redirect_to @plan, notice: 'Plan creado correctamente.' }
     			format.json { render action: 'show', status: :created, location: @plan }
     		  else
     			format.html { render action: 'new' }
@@ -84,7 +84,7 @@ class PlansController < ApplicationController
     end
   end
 
-  # PATCH/PUT /plans/1
+  # GET /plans/1
   # PATCH/PUT /plans/1.json
   def update
     respond_to do |format|
@@ -98,12 +98,26 @@ class PlansController < ApplicationController
     end
   end
 
+
+  def eliminar
+    Plan.where(estudiante_id: $estudiante.id,curso_id: params[:curso_id]).delete_all
+    respond_to do |format|
+      if not(Plan.exists?(estudiante_id: $estudiante.id,curso_id: params[:curso_id]))
+        format.html { redirect_to plans_path, notice: 'Se elimino la materia del plan de estudios correctamente'}        
+        format.json { head :no_content }
+      else
+        format.html { redirect_to plans_path, notice: 'No se logro eliminar la materia del plan de estudios'}        
+        format.json { head :no_content }
+      end
+    end
+  end
+
   # DELETE /plans/1
   # DELETE /plans/1.json
   def destroy
     @plan.destroy
     respond_to do |format|
-      format.html { redirect_to plans_url }
+      format.html { redirect_to plans_path }
       format.json { head :no_content }
     end
   end
@@ -111,7 +125,7 @@ class PlansController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_plan
-      @plan = Plan.find(params[:id])
+     
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
