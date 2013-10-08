@@ -32,10 +32,10 @@ class EstudiantesController < ApplicationController
       if @estudiante.save
         #Asignarle pensum para los semestres que aun no a cursado
         #Seleccionar pensum sugerido para los semestres que aun no a cursado
-        @pensums=Pensum.where(programa_id: @estudiante.programa.id).where("semestre >?", @estudiante.semestre_actual)
+        @pensums=Pensum.where(programa_id: @estudiante.programa.id).where("semestre >=?", @estudiante.semestre_actual)
         @pensums.each do |pensum|
             #Determinar el numero de periodos en el futuro en los que debera ver el curso
-            num_sem=pensum.semestre-@estudiante.semestre_actual
+            num_sem=pensum.semestre-@estudiante.semestre_actual+1
             #Determinar el año en que deberia ver el curso si sigue el pensum
             anio=periodo_actual[0,4].to_i+(num_sem/2.0).ceil
             #Determinar el periodo en que deberia ver el curso si sigue el pensum (1 o 2)
