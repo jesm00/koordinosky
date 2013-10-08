@@ -49,7 +49,55 @@ class OptimizadorController < ApplicationController
 	end
 
 	def calcularAsignacionOferta
+		#Calcular número de materias que quiere ver cada estudiante
+		demanda=Plan.where(semestre: "201410").find(:all, 
+		  :select => '"estudiantes".id as id_estudiante, "estudiantes".nombre, count(curso_id) as demanda', 
+		  :joins => :estudiante, 
+		  :group => '"estudiantes".id'
+		)
+		#Guardar resultados en un hash
+		@demandaEstudiantes=Hash.new
+		demanda.each do |res|
+			@demandaEstudiantes[res.id_estudiante]=res
+		end
+
+		#Calcular la asiganción de las diferencias materias y contar cuanats materias se asignaron a cada estudiante
+		@asignadasEstudiantes=Hash.new	
+		@cuantasEstudiantes=Hash.new		
+
+		$ofertaDeCursos.each do |id,oferta|			
+			@ofertaCurso=oferta
+			obtenerDemandaActual()
+			contarAsignadas()
+		end
+		@conflictosCrtiticos=Hash.new
+		@otrosConflictos=Hash.new
+		calcularConlfictos()
 		render "optimizador/displayOferta"
+	end
+
+	def calcularConlfictos
+		@demandaEstudiantes.each do |id,est|
+			if @cuantasEstudiantes[id].nil?||@cuantasEstudiantes[id]==0
+				@conflictosCrtiticos[id]=true
+			elsif @cuantasEstudiantes[id]!=est.demanda
+				@otrosConflictos[id]=true
+			end
+		end
+	end
+
+	def contarAsignadas
+		@asignados.each do |id,valor|
+			if @cuantasEstudiantes[id].nil?
+				@cuantasEstudiantes[id]=1
+			else
+				@cuantasEstudiantes[id]+=1
+			end
+			if @asignadasEstudiantes[id].nil?
+				@asignadasEstudiantes[id]=Array.new
+			end
+			@asignadasEstudiantes[id].push(@ofertaCurso.materia)			
+		end
 	end
 
 	def asignacionCupos	
@@ -64,10 +112,18 @@ class OptimizadorController < ApplicationController
 		if curso.nil?
 			curso=Curso.first()
 		end
-		@nCuposTotales=12
+		cupos=12
+		@ofertaCurso=Oferta.new(curso,cupos)
+		obtenerDemandaActual()
+		
+		#Hacer render a la pagina resultado
+		render "optimizador/asignacion"
+	end
+
+	def obtenerDemandaActual
+		@nCuposTotales=@ofertaCurso.cupos
 		@nCuposAsignados=0
 		@asignados= Hash.new
-		@ofertaCurso=Oferta.new(curso,@nCuposTotales)
 		
 		#Hacer calculos necesarios
 		calcularDemanda()
@@ -77,8 +133,6 @@ class OptimizadorController < ApplicationController
 		asignarCuposOtraMaestria()
 		asignarCuposPregrado()
 		reasignarCuposSobrantes()
-		#Hacer render a la pagina resultado
-		render "optimizador/asignacion"
 	end
 	
 	def calcularDemanda

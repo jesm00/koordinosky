@@ -1,6 +1,6 @@
 <div align="center">
 	<h1>Oferta de cursos</h1>
-	<table  id="table_headers" border="1">
+	<table  id="table_oferta" border="1">
 	  	<thead>
 			<tr>
 		  		<th align="center" width="50px">Curso</th>
@@ -29,6 +29,91 @@
 	<% end %>
 	  	</tbody>	
 	</table>
+
+	<br><br>
+
+	<table  id="table_criticos" border="1">
+	  	<thead>
+			<tr>
+		  		<th align="center" width="150px">Estudiante</th>
+		  		<th align="center" width="150px">Demanda</th>
+		  		<th align="center" width="150px">Asignadas</th>
+			</tr>
+	  	</thead>
+	  	<tbody>
+
+	<% @conflictosCrtiticos.each do |id,val| %>
+		  	<tr>
+				<td align="center"> 				  
+    				<%= @demandaEstudiantes[id].nombre %>
+    			</td>
+				<td align="center">  
+    				<%= @demandaEstudiantes[id].demanda %>
+    			</td>   
+       			<td>
+       				<%= 0 %>
+       			</td>     
+		  	</tr>
+	<% end %>
+	  	</tbody>	
+	</table>
+
+	<br><br>
+
+	<table  id="table_conflictos" border="1">
+	  	<thead>
+			<tr>
+		  		<th align="center" width="150px">Estudiante</th>
+		  		<th align="center" width="150px">Demanda</th>
+		  		<th align="center" width="150px">Asignadas</th>
+			</tr>
+	  	</thead>
+	  	<tbody>
+
+	<% @otrosConflictos.each do |id,val| %>
+		  	<tr>
+				<td align="center"> 				  
+    				<%= @demandaEstudiantes[id].nombre %>
+    			</td>
+				<td align="center">  
+    				<%= @demandaEstudiantes[id].demanda %>
+    			</td>   
+       			<td>
+       				<%= @cuantasEstudiantes[id] %>
+       			</td>     
+		  	</tr>
+	<% end %>
+	  	</tbody>	
+	</table>
+
+	<br><br>
+
+	<table  id="table_demanda" border="1">
+	  	<thead>
+			<tr>
+		  		<th align="center" width="150px">Estudiante</th>
+		  		<th align="center" width="150px">Demanda</th>
+		  		<th align="center" width="150px">Asignadas</th>
+			</tr>
+	  	</thead>
+	  	<tbody>
+
+	<% @demandaEstudiantes.each do |id,est| %>
+		  	<tr>
+				<td align="center"> 				  
+    				<%= est.nombre %>
+    			</td>
+				<td align="center">  
+    				<%= est.demanda %>
+    			</td>   
+       			<td>
+       				<%= @cuantasEstudiantes[id] %>
+       			</td>     
+		  	</tr>
+	<% end %>
+	  	</tbody>	
+	</table>
+
 
 	<%= render 'formOferta' %>
 </div>
