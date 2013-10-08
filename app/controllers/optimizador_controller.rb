@@ -5,8 +5,10 @@ class OptimizadorController < ApplicationController
 		Curso.all.each do |curso|
 			@ofertaCurso=Oferta.new(curso,30)
 			calcularDemanda()
-			@ofertaCurso.cupos=@demandaCurso
-			$ofertaDeCursos[curso.id]=@ofertaCurso
+			if @demandaCurso>0
+				@ofertaCurso.cupos=@demandaCurso
+				$ofertaDeCursos[curso.id]=@ofertaCurso
+			end
 		end
 		calcularAsignacionOferta()
 	end
@@ -42,7 +44,10 @@ class OptimizadorController < ApplicationController
 	def quitarCupo
 		if not(params[:curso_id].nil?)
 			if not ($ofertaDeCursos[params[:curso_id].to_i].nil?)
-				$ofertaDeCursos[params[:curso_id].to_i].cupos-=1
+				$ofertaDeCursos[params[:curso_id].to_i].cupos=[$ofertaDeCursos[params[:curso_id].to_i].cupos-1,0].max
+				if $ofertaDeCursos[params[:curso_id].to_i].cupos==0
+					$ofertaDeCursos.delete(params[:curso_id].to_i)
+				end
 			end
 		end
 		calcularAsignacionOferta()
@@ -78,7 +83,7 @@ class OptimizadorController < ApplicationController
 
 	def calcularConlfictos
 		@demandaEstudiantes.each do |id,est|
-			if @cuantasEstudiantes[id].nil?||@cuantasEstudiantes[id]==0
+			if est.demanda!=0&&(@cuantasEstudiantes[id].nil?||@cuantasEstudiantes[id]==0)
 				@conflictosCrtiticos[id]=true
 			elsif @cuantasEstudiantes[id]!=est.demanda
 				@otrosConflictos[id]=true
