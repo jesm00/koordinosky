@@ -18,6 +18,10 @@ When(/^I click link "(.*?)"$/) do |link|
   page.find(:link,link).click
 end
 
+When(/^I click link number "(.*?)" in table "(.*?)" in row "(.*?)" in column "(.*?)"$/) do |number,table,row,column| 
+  page.find(:xpath,'//table[@id="'+table+'"]/tbody/tr['+row+']/td['+column+']/a['+number+']').click
+end
+
 When(/^I fill in "(.*?)" with "(.*?)"$/) do |campo, entrada|
   fill_in(campo, :with => entrada)
 end

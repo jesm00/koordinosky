@@ -1,5 +1,5 @@
 <div align="center">
-	<h1>Oferta de cursos</h1>
+	<h1>CURSOS SUGERIDOS</h1>
 	<table  id="table_oferta" border="1">
 	  	<thead>
 			<tr>
@@ -19,7 +19,7 @@
     				<p width="200px"><%= oferta.cupos %></p>
     			</td>   
        			<td>
-       				<%=link_to "Eliminar curso",:controller => "optimizador", :action => "eliminarOferta", :curso_id => id%>
+       				<%=link_to "Eliminar curso", :controller => "optimizador", :action => "eliminarOferta", :curso_id => id%>
        			</td>   
        			<td>
        				<%=link_to "Agregar cupos",:controller => "optimizador", :action => "agregarCupo", :curso_id => id%>
@@ -29,91 +29,102 @@
 	<% end %>
 	  	</tbody>	
 	</table>
-
 	<br><br>
-
-	<table  id="table_criticos" border="1">
-	  	<thead>
-			<tr>
-		  		<th align="center" width="150px">Estudiante</th>
-		  		<th align="center" width="150px">Demanda</th>
-		  		<th align="center" width="150px">Asignadas</th>
-			</tr>
-	  	</thead>
-	  	<tbody>
-
-	<% @conflictosCrtiticos.each do |id,val| %>
-		  	<tr>
-				<td align="center"> 				  
-    				<%= @demandaEstudiantes[id].nombre %>
-    			</td>
-				<td align="center">  
-    				<%= @demandaEstudiantes[id].demanda %>
-    			</td>   
-       			<td>
-       				<%= 0 %>
-       			</td>     
-		  	</tr>
-	<% end %>
-	  	</tbody>	
-	</table>
-
-	<br><br>
-
-	<table  id="table_conflictos" border="1">
-	  	<thead>
-			<tr>
-		  		<th align="center" width="150px">Estudiante</th>
-		  		<th align="center" width="150px">Demanda</th>
-		  		<th align="center" width="150px">Asignadas</th>
-			</tr>
-	  	</thead>
-	  	<tbody>
-
-	<% @otrosConflictos.each do |id,val| %>
-		  	<tr>
-				<td align="center"> 				  
-    				<%= @demandaEstudiantes[id].nombre %>
-    			</td>
-				<td align="center">  
-    				<%= @demandaEstudiantes[id].demanda %>
-    			</td>   
-       			<td>
-       				<%= @cuantasEstudiantes[id] %>
-       			</td>     
-		  	</tr>
-	<% end %>
-	  	</tbody>	
-	</table>
-
-	<br><br>
-
-	<table  id="table_demanda" border="1">
-	  	<thead>
-			<tr>
-		  		<th align="center" width="150px">Estudiante</th>
-		  		<th align="center" width="150px">Demanda</th>
-		  		<th align="center" width="150px">Asignadas</th>
-			</tr>
-	  	</thead>
-	  	<tbody>
-
-	<% @demandaEstudiantes.each do |id,est| %>
-		  	<tr>
-				<td align="center"> 				  
-    				<%= est.nombre %>
-    			</td>
-				<td align="center">  
-    				<%= est.demanda %>
-    			</td>   
-       			<td>
-       				<%= @cuantasEstudiantes[id] %>
-       			</td>     
-		  	</tr>
-	<% end %>
-	  	</tbody>	
-	</table>
-
-
 	<%= render 'formOferta' %>
+	
+	<br><br>
+	<h3>DETALLE DE CONFLICTOS</h3>
+	<body>
+	  <table id="table_conflictos_criticos" border="1" width="100%">
+	    <tr>
+	      <td>Conflictos Criticos(<%= @conflictosCrtiticos.count %>)</td>
+	      <td width="100px"><div align="center" id="estadoT" onClick="desplegar('tabla_a_desplegar_critico','estadoT', 'estadoTfila')" style="background: #EE5566; cursor: pointer;">Ocultar</div></td>
+	    </tr>
+	    <tr>
+	      <td align="center" border="3" colspan="2">
+	        <table  id="tabla_a_desplegar_critico" style="display:block;">
+	            <tr style="background: #CCCCCC" align="center">
+	              <th align="center" width="310px">Estudiante</th>
+			  	  <th align="center" width="310px"># Materias preinscritas</th>
+			  	  <th align="center" width="310px"># Materias Asignadas</th>
+	            </tr>
+	            <% @conflictosCrtiticos.each do |id,val| %>
+			  	<tr>
+					<td align="center"> 				  
+	    				<%= @demandaEstudiantes[id].nombre %>
+	    			</td>
+					<td align="center">  
+	    				<%= @demandaEstudiantes[id].demanda %>
+	    			</td>   
+	       			<td>
+	       				<%= 0 %>
+	       			</td>     
+			  	</tr>
+				<% end %>
+	        </table>
+	      </td>
+	    </tr>
+	  </table>
+	<br><br>
+	<table id="table_otros_conflictos" border="1" width="100%">
+	    <tr>
+	      <td>Conflictos Leves(<%= @otrosConflictos.count %>)</td>
+	      <td width="100px"><div align="center" id="estadoT1" onClick="desplegar('tabla_a_desplegar_leve','estadoT1', 'estadoTfila')" style="background: #EE5566; cursor: pointer;">Ocultar</div></td>
+	    </tr>
+	    <tr>
+	      <td align="center" border="3" colspan="2">
+	        <table  id="tabla_a_desplegar_leve" style="display:block;">
+	            <tr style="background: #CCCCCC" align="center">
+	              <th align="center" width="310px">Estudiante</th>
+			  	  <th align="center" width="310px"># Materias preinscritas</th>
+			  	  <th align="center" width="310px"># Materias Asignadas</th>
+	            </tr>
+	           <% @otrosConflictos.each do |id,val| %>
+			  	<tr>
+					<td align="center"> 				  
+	    				<%= @demandaEstudiantes[id].nombre %>
+	    			</td>
+					<td align="center">  
+	    				<%= @demandaEstudiantes[id].demanda %>
+	    			</td>   
+	       			<td>
+	       				<%= @cuantasEstudiantes[id] %>
+	       			</td>     
+			  	</tr>
+			   <% end %>
+	        </table>
+	      </td>
+	    </tr>
+	  </table>
+	<br><br>
+	<table id="table_demanda_cursos" border="1" width="100%">
+	    <tr>
+	      <td>Demanda Total de Cupos(<%= @demandaEstudiantes.count %>)</td>
+	      <td width="100px"><div align="center" id="estadoT2" onClick="desplegar('tabla_a_desplegar_demanda','estadoT2', 'estadoTfila')" style="background: #CC3322; cursor: pointer;">Ocultar</div></td>
+	    </tr>
+	    <tr>
+	      <td align="center" border="3" colspan="2">
+	        <table  id="tabla_a_desplegar_demanda" style="display:block;">
+	            <tr style="background: #CCCCCC" align="center">
+	              <th align="center" width="310px">Estudiante</th>
+			  	  <th align="center" width="310px"># Materias preinscritas</th>
+			  	  <th align="center" width="310px"># Materias Asignadas</th>
+	            </tr>
+	           <% @demandaEstudiantes.each do |id,est| %>
+			  	<tr>
+					<td align="center"> 				  
+	    				<%= est.nombre %>
+	    			</td>
+					<td align="center">  
+	    				<%= est.demanda %>
+	    			</td>   
+	       			<td>
+	       				<%= @cuantasEstudiantes[id] %>
+	       			</td>     
+			  	</tr>
+			   <% end %>
+	        </table>
+	      </td>
+	    </tr>
+	  </table>
 </div>
