@@ -1,0 +1,19 @@
+
+<h2>Agregar sección</h2>
+<%=form_tag(controller: "optimizador", action: "agregarOferta") do%>  
+  <div class="field">
+    <%= label :curso_id, 'Sección a agregar:'%>
+    <%= select_tag(:curso_id, 
+      options_from_collection_for_select(Curso.all, :id, :nombre)
+      )
+    %>
+  </div>
+   <div class="field">
+    <%= label :cupos, 'Cupos de la sección:'%>
+    <%= text_field_tag 'cupos' %>
+  </div>
+  
+  <div class="actions">
+    <%= submit_tag "Agregar oferta", class:"btn btn-primary" %>
+  </div>
+<% end %>

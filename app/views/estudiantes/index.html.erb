@@ -1,0 +1,31 @@
+<h1>Listing estudiantes</h1>
+
+<table class="table table-hover" style="margin:0; padding:0">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Email</th>
+      <th>Semestre actual</th>
+      <th>Show</th>
+      <th>Edit</th>
+      <th>Destroy</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @estudiantes.each do |estudiante| %>
+      <tr>
+        <td><%= estudiante.nombre %></td>
+        <td><%= estudiante.email %></td>
+        <td><%= estudiante.semestre_actual %></td>
+        <td><%= link_to raw("<i class=\"icon-search\"></i>"), estudiante %></td>
+        <td><%= link_to raw("<i class=\"icon-pencil\"></i>"), edit_estudiante_path(estudiante) %></td>
+        <td><%= link_to raw("<i class=\"icon-trash\"></i>"), estudiante, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<center><%= page_entries_info @estudiantes %> <%= will_paginate @estudiantes %></center>
+<span><%= link_to 'New Estudiante', new_estudiante_path, class:"btn btn-primary",:style=>'color:#FFFFFF;' %></span>
+<br>
+

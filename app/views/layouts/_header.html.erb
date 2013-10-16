@@ -1,0 +1,50 @@
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <nav>
+        <%= image_tag("Koordinosky.png", :alt => "Koordinosky", :class => "round", :height => "25%", :width => "20%") %> 
+        <ul class="nav pull-right">
+          <li id="fat-menu" class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Maintenance <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "Estudiantes", :controller => "estudiantes", :action => "index"%></li>
+                <li><%= link_to "Cursos", :controller => "cursos", :action => "index" %></li>
+                <li><%= link_to "Programas", :controller => "programas", :action => "index" %></li>
+              </ul>
+          </li>          
+          <li><%= link_to "Estudiante", :controller => "estudiantes", :action => "seleccionar" %></li>
+          <li id="fat-menu" class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Coordinador <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "Demanda de una Materia", :controller => "cursos", :action => "seleccionar", :controlador => "optimizador",:accion => "asignacionCupos" %></li>
+                <li><%= link_to "Demanda de todas las Materias", :controller => "optimizador", :action => "calcularDemandaTodos" %></li>
+                <li><%= link_to "Oferta Sugerida", :controller => "optimizador", :action => "sugerirOferta" %></li>
+              </ul>
+          </li>
+          <% if signed_in? %>
+            <!--<li><%= link_to "Users", '#' %></li>-->
+            <li id="fat-menu" class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Account <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "Profile", current_user %></li>
+                <li><%= link_to "Settings", '#' %></li>
+                <li class="divider"></li>
+                <li>
+                  <%= link_to "Sign out", signout_path, method: "delete" %>
+                </li>
+              </ul>
+            </li>
+          <% else %>
+            <li><%= link_to "Sign in", signin_path %></li>
+          <% end %>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>

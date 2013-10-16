@@ -1,0 +1,28 @@
+<h1>Listing cursos</h1>
+
+<table class="table table-hover" style="margin:0; padding:0">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Creditos</th>
+      <th>Show</th>
+      <th>Edit</th>
+      <th>Destroy</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @cursos.each do |curso| %>
+      <tr>
+        <td><%= curso.nombre %></td>
+        <td><%= curso.creditos %></td>
+        <td><%= link_to raw("<i class=\"icon-search\"></i>"), curso %></td>
+        <td><%= link_to raw("<i class=\"icon-pencil\"></i>"), edit_curso_path(curso) %></td>
+        <td><%= link_to raw("<i class=\"icon-trash\"></i>"), curso, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<center><%= page_entries_info @cursos %> <%= will_paginate @cursos %></center>
+<span><%= link_to 'New Curso', new_curso_path, class:"btn btn-primary",:style=>'color:#FFFFFF;' %></span>
+<br>

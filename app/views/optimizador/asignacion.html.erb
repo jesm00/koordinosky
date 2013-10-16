@@ -1,0 +1,348 @@
+<head> 
+  <style type="text/css">
+    table
+    {
+      border: 1px solid black;
+    }
+
+    td
+    {
+      border: 1px solid black;
+    }
+
+    tr
+    {
+      border: 1px solid black;
+    }
+
+    th
+    {
+      border: 1px solid black;
+    }
+  </style>
+
+</head>
+
+<h1 onClick="javascript:pie_chart();">Asignación de cupos para <%= @ofertaCurso.materia.nombre %></h1>
+
+<table id="table_info_curso" border="px" width="100%">
+  <body>
+    <tr style="background: #FFBA75">
+      <td colspan="2">Información del Curso</td>
+    </tr> 
+    <tr>
+      <td>Nombre: <%= @ofertaCurso.materia.nombre %></td>
+      <td>Programa:</td>
+    </tr> 
+    <tr>
+      <td>Cupos Totales: <%= @nCuposTotales %></td>
+      <td>Cupos Asignados: <%= @nCuposAsignados%></td>
+    </tr>
+    <table id="table_interesados" width="100%">
+      <tr>
+        <td>Estudiantes Interesados (<%= @demanda.count %>)</td>
+        <td width="100px"><div align="center" id="estadoT5" onClick="desplegar('tabla_a_desplegar5','estadoT5', 'estadoTfila5')" style="background: #EE8800; cursor: pointer;">Mostrar</div></td>
+      </tr>
+      <tr>
+        <td align="center" border="3" colspan="2">
+          <table  id="tabla_a_desplegar5" style="display:none;">
+              <tr style="background: #AAAAAA">
+                <th width="500px">Nombre</th>
+                <th width="500px">e-mail</th>
+                <th width="100px">Programa</th>
+                <th width="80px">Semestre</th>
+              </tr>
+              <% @demanda.each do |dem| %>
+                <tr align="center">
+                  <td><%= dem.estudiante.nombre %></td> 
+                  <td><%= dem.estudiante.email %></td>
+                  <td><%= dem.estudiante.programa.nombre %></td> 
+                  <td><%= dem.estudiante.semestre_actual %></td>   
+                </tr>
+              <% end %> 
+          </table>
+        </td>
+      </tr>
+    </table>    
+    </body>
+  </table>
+<h1> Detalles de Asignación</h1>
+
+<body>
+  <table id="tabla_prioridad_alta" width="100%">
+    <tr>
+      <td>Estudiantes de Alta Prioridad (<%= @asignadosAltaPrioridad.count %>)</td>
+      <td width="100px"><div align="center" id="estadoT" onClick="desplegar('tabla_a_desplegar','estadoT', 'estadoTfila')" style="background: #EE8800; cursor: pointer;">Ocultar</div></td>
+    </tr>
+    <tr>
+      <td align="center" border="3" colspan="2">
+        <table  id="tabla_a_desplegar" style="display:block;">
+            <tr>
+              <th colspan="4" style="background: #B0FFB0;">Asignados</th>
+            </tr>
+            <tr style="background: #EEEEEE">
+              <th width="500px">Nombre</th>
+              <th width="500px">e-mail</th>
+              <th width="100px">Programa</th>
+              <th width="80px">Semestre</th>
+            </tr>
+            <% @asignadosAltaPrioridad.each do |est| %>
+              <tr align="center">
+                <td><%= est.nombre %></td> 
+                <td><%= est.email %></td>
+                <td><%= est.programa.nombre %></td> 
+                <td><%= est.semestre_actual %></td>   
+              </tr>
+            <% end %> 
+            <tr>
+              <th colspan="4" style="background: #FF8080;">No Asignados</th>
+            </tr>
+            <tr style="background: #EEEEEE">
+              <th width="100px">Nombre</th>
+              <th width="100px">e-mail</th>
+              <th width="100px">Programa</th>
+              <th width="80px">Semestre</th>
+            </tr>
+            <% @noAsignadosAltaPrioridad.each do |est| %>
+              <tr>
+                <td><%= est.nombre %></td> 
+                <td><%= est.email %></td>
+                <td><%= est.programa.nombre %></td> 
+                <td><%= est.semestre_actual %></td>   
+              </tr>
+            <% end %> 
+        </table>
+      </td>
+    </tr>
+  </table>
+  
+  <table id="tabla_misma_maestria" width="100%">
+    <tr>
+      <td>Estudiantes del Programa (<%= @asignadosMismaMaestria.count %>)</td>
+      <td width="100px"><div align="center" id="estadoT2" onClick="desplegar('tabla_a_desplegar2','estadoT2', 'estadoTfila2')" style="background: #EE8800; cursor: pointer;">Ocultar</div></td>
+    </tr>
+    <tr>
+      <td align="center" border="3" colspan="2">
+        <table id="tabla_a_desplegar2" style="display:block;">
+            <tr>
+              <th colspan="4" style="background: #B0FFB0;">Asignados</th>
+            </tr>
+            <tr style="background: #EEEEEE">
+              <th width="500px">Nombre</th>
+              <th width="500px">e-mail</th>
+              <th width="100px">Programa</th>
+              <th width="80px">Semestre</th>
+            </tr>
+            <% @asignadosMismaMaestria.each do |est| %>
+              <tr align="center">
+                <td><%= est.nombre %></td> 
+                <td><%= est.email %></td>
+                <td><%= est.programa.nombre %></td> 
+                <td><%= est.semestre_actual %></td>   
+              </tr>
+            <% end %> 
+            <tr>
+              <th colspan="4" style="background: #FF8080;">No Asignados</th>
+            </tr>
+            <tr style="background: #EEEEEE">
+              <th width="100px">Nombre</th>
+              <th width="100px">e-mail</th>
+              <th width="100px">Programa</th>
+              <th width="80px">Semestre</th>
+            </tr>
+            <% @noAsignadosMismaMaestria.each do |est| %>
+              <tr>
+                <td><%= est.nombre %></td> 
+                <td><%= est.email %></td>
+                <td><%= est.programa.nombre %></td> 
+                <td><%= est.semestre_actual %></td>   
+              </tr>
+            <% end %> 
+        </table>
+      </td>
+    </tr>
+  </table>
+  
+ <table id="tabla_otra_maestria" width="100%">
+    <tr>
+      <td>Estudiantes de otro Programa (<%= @asignadosOtraMaestria.count %>)</td>
+      <td width="100px"><div align="center" id="estadoT3" onClick="desplegar('tabla_a_desplegar3','estadoT3', 'estadoTfila3')" style="background: #EE8800; cursor: pointer;">Ocultar</div></td>
+    </tr>
+    <tr>
+      <td align="center" border="3" colspan="2">
+        <table id="tabla_a_desplegar3" style="display:block;">
+            <tr>
+              <th colspan="4" style="background: #B0FFB0;">Asignados</th>
+            </tr>
+            <tr style="background: #EEEEEE">
+              <th width="500px">Nombre</th>
+              <th width="500px">e-mail</th>
+              <th width="100px">Programa</th>
+              <th width="80px">Semestre</th>
+            </tr>
+            <% @asignadosOtraMaestria.each do |est| %>
+              <tr align="center">
+                <td><%= est.nombre %></td> 
+                <td><%= est.email %></td>
+                <td><%= est.programa.nombre %></td> 
+                <td><%= est.semestre_actual %></td>   
+              </tr>
+            <% end %> 
+            <tr>
+              <th colspan="4" style="background: #FF8080;">No Asignados</th>
+            </tr>
+            <tr style="background: #EEEEEE">
+              <th width="100px">Nombre</th>
+              <th width="100px">e-mail</th>
+              <th width="100px">Programa</th>
+              <th width="80px">Semestre</th>
+            </tr>
+            <% @noAsignadosOtraMaestria.each do |est| %>
+              <tr>
+                <td><%= est.nombre %></td> 
+                <td><%= est.email %></td>
+                <td><%= est.programa.nombre %></td> 
+                <td><%= est.semestre_actual %></td>   
+              </tr>
+            <% end %> 
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <table id="tabla_pregrado" width="100%">
+    <tr>
+      <td>Estudiantes de Pregrado (<%= @asignadosPregrado.count %>)</td>
+      <td width="100px"><div align="center" id="estadoT4" onClick="desplegar('tabla_a_desplegar4','estadoT4', 'estadoTfila4')" style="background: #EE8800; cursor: pointer;">Ocultar</div></td>
+    </tr>
+    <tr>
+      <td align="center" border="3" colspan="2">
+        <table id="tabla_a_desplegar4" style="display:block;">
+            <tr>
+              <th colspan="4" style="background: #B0FFB0;">Asignados</th>
+            </tr>
+            <tr style="background: #EEEEEE">
+              <th width="500px">Nombre</th>
+              <th width="500px">e-mail</th>
+              <th width="100px">Programa</th>
+              <th width="80px">Semestre</th>
+            </tr>
+            <% @asignadosPregrado.each do |est| %>
+              <tr align="center">
+                <td><%= est.nombre %></td> 
+                <td><%= est.email %></td>
+                <td><%= est.programa.nombre %></td> 
+                <td><%= est.semestre_actual %></td>   
+              </tr>
+            <% end %> 
+            <tr>
+              <th colspan="4" style="background: #FF8080;">No Asignados</th>
+            </tr>
+            <tr style="background: #EEEEEE">
+              <th width="100px">Nombre</th>
+              <th width="100px">e-mail</th>
+              <th width="100px">Programa</th>
+              <th width="80px">Semestre</th>
+            </tr>
+            <% @noAsignadosPregrado.each do |est| %>
+              <tr>
+                <td><%= est.nombre %></td> 
+                <td><%= est.email %></td>
+                <td><%= est.programa.nombre %></td> 
+                <td><%= est.semestre_actual %></td>   
+              </tr>
+            <% end %> 
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+
+<div id="chart_div" align="center"></div>
+    <script type="text/javascript">
+pie_chart()
+function pie_chart(){
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+                ['Estudiantes de Alta Prioridad', <%= @asignadosAltaPrioridad.count %>],
+                ['Estudiantes del Programa', <%= @asignadosMismaMaestria.count %>],
+                ['Estudiantes de otro Programa', <%= @asignadosOtraMaestria.count %>],
+                ['Estudiantes de Pregrado', <%= @asignadosPregrado.count %>]
+            ]);
+
+        // Set chart options
+        var options = {'title':'Demanda total para el curso "'+<%=raw @ofertaCurso.materia.nombre.to_json %>+'" en el presente semestre',
+                       'width':600,
+                       'height':300,
+                       'is3D':true,};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+}      
+    </script> 
+
+
+
+
+
+ <div id="container" align="center" style=" margin:0 auto;"></div>
+<script type="text/javascript">
+function mostrar_todos_pie_high_chart(){
+//$(function () {
+    //BEGIN READY FUNCTION    
+    $('#container').highcharts({        
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: 'HIGHCHRATS: Demanda total para el curso '+<%= @asignadosAltaPrioridad.count %>+' en el presente semestre'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Browser share',
+            data: [
+                ['Estudiantes de Alta Prioridad', <%= @asignadosAltaPrioridad.count %>],
+                ['Estudiantes del Programa', <%= @asignadosMismaMaestria.count %>],
+                ['Estudiantes de otro Programa', <%= @asignadosOtraMaestria.count %>],
+                ['Estudiantes de Pregrado', <%= @asignadosPregrado.count %>]
+            ]
+        }]
+    }); 
+//END READY FUNCTION
+//});    
+}
+</script>    

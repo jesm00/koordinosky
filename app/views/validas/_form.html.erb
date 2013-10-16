@@ -1,0 +1,28 @@
+<%= form_for(@valida) do |f| %>
+  <% if @valida.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@valida.errors.count, "error") %> prohibited this valida from being saved:</h2>
+
+      <ul>
+      <% @valida.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+	<%= f.select(:curso_id, 
+	    options_from_collection_for_select(Curso.all, :id, :nombre)
+	    )
+	%>
+  </div>
+    <div class="field">
+	<%= f.select(:programa_id, 
+	    options_from_collection_for_select(Programa.all, :id, :nombre)
+	    )
+	%>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

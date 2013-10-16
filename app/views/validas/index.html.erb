@@ -1,0 +1,29 @@
+<h1>Listing validas</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Curso</th>
+      <th>Programa</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @validas.each do |valida| %>
+      <tr>
+        <td><%= valida.curso.nombre %></td>
+        <td><%= valida.programa.nombre %></td>
+        <td><%= link_to 'Show', valida %></td>
+        <td><%= link_to 'Edit', edit_valida_path(valida) %></td>
+        <td><%= link_to 'Destroy', valida, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Valida', new_valida_path %>
