@@ -14,6 +14,10 @@
       <%= f.submit "Sign in", class: "btn btn-large btn-primary" %>
     <% end %>
 
+<<<<<<< HEAD
+    <p>New estudiante? <%= link_to "Sign up now!", new_estudiante_path %></p>
+=======
     <p>New estudiante? <%= link_to "Sign up now!", estudiantes_path %></p>
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
   </div>
 </div>

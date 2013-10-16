@@ -1,0 +1,34 @@
+
+<<<<<<< HEAD
+<h2>Agregar sección</h2>
+<%=form_tag(controller: "optimizador", action: "agregarOferta") do%>  
+  <div class="field">
+    <%= label :curso_id, 'Sección a agregar:'%>
+=======
+<h2>AGREGAR CURSOS</h2>
+<%=form_tag(controller: "optimizador", action: "agregarOferta") do%>  
+  <div class="field">
+    <%= label :curso_id, 'Curso a agregar:'%>
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
+    <%= select_tag(:curso_id, 
+      options_from_collection_for_select(Curso.all, :id, :nombre)
+      )
+    %>
+  </div>
+   <div class="field">
+<<<<<<< HEAD
+    <%= label :cupos, 'Cupos de la sección:'%>
+=======
+    <%= label :cupos, 'Cupos del curso:'%>
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
+    <%= text_field_tag 'cupos' %>
+  </div>
+  
+  <div class="actions">
+<<<<<<< HEAD
+    <%= submit_tag "Agregar oferta", class:"btn btn-primary" %>
+=======
+    <%= submit_tag("Agregar oferta") %>
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
+  </div>
+<% end %>

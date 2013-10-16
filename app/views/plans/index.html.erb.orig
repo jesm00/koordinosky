@@ -1,6 +1,10 @@
 <h1>Plan de estudios del estudiante <%= $estudiante.nombre %></h1>
+<<<<<<< HEAD
 
-<table id="table_plans" class="table table-hover" style="margin:0; padding:0">
+<table class="table table-hover" style="margin:0; padding:0">
+=======
+<table id="table_plans">
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
   <thead>
     <tr>
       <th>Curso</th>
@@ -14,12 +18,22 @@
       <tr>
         <td><%= plan.curso.nombre %></td>
         <td><%= plan.semestre %></td>
+<<<<<<< HEAD
         <td><%= link_to raw("<i class=\"icon-trash\"></i>"), :controller => "plans", :action => "eliminar", :curso_id => plan.curso.id%></td>
+=======
+        <td><%=link_to "Eliminar del plan de estudios",:controller => "plans", :action => "eliminar", :curso_id => plan.curso.id%></td>
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
       </tr>
     <% end %>
   </tbody>
 </table>
+<<<<<<< HEAD
 <center><%= page_entries_info @plans %> <%= will_paginate @plans %></center>
+<br>
+<%= link_to 'Agregar materia al plan de estudios', new_plan_path, class:"btn btn-primary",:style=>'color:#FFFFFF;' %>
+=======
+
 <br>
 
 <%= link_to 'Agregar materia al plan de estudios', new_plan_path %>
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0

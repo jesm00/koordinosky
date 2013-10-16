@@ -7,6 +7,10 @@
 	%>
   </div>
   <div class="actions">
+<<<<<<< HEAD
+    <%= submit_tag "Seleccionar curso", class:"btn btn-primary" %>
+=======
     <%= submit_tag("Seleccionar curso") %>
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
   </div>
 <% end %>

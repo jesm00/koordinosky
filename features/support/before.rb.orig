@@ -287,6 +287,9 @@ Before do |scenario|
 		Plan.create(:curso_id=>curso1.id,:estudiante_id => estudiante14.id, :semestre => "201410")
   end
 
+<<<<<<< HEAD
+  #Escenario de prueba para el feature Reasignar cupos sobrantes
+=======
   #Escenario de prueba para el feature Determinar conflictos de horario
   if scenario.title=='Sugerir Oferta' ||  scenario.title=='Sugerir Oferta' || scenario.title=='Agregar Cupo' || scenario.title=='Eliminar Cupo' || scenario.title=='Determinar Conflictos Criticos' || scenario.title=='Determinar Conflictos Leves'
   	  	programa=Programa.create(:nombre => 'Programa maestria prueba',:es_maestria => true, :duracion => 4)
@@ -391,4 +394,5 @@ Before do |scenario|
 		#Todos los estudiantes quieren ver el curso 1
 		Plan.create(:curso_id=>curso1.id,:estudiante_id => estudiante1.id, :semestre => "201410")
   end
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
 end

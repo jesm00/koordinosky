@@ -1,0 +1,13 @@
+<<<<<<< HEAD
+<!--
+<p><%=link_to "Opciones coordinador", "/coordinador"%></p>
+<p><%=link_to "Opciones estudiante", :controller => "estudiantes", :action => "seleccionar"%></p>
+-->
+<h1 style='text-align:left'>Welcome to:</h1>
+<center>
+<%= image_tag("Koordinosky.png", :alt => "Koordinosky", :class => "round", :height => "100%", :width => "70%") %>
+</center> 
+=======
+<p><%=link_to "Opciones coordinador", "/coordinador"%></p>
+<p><%=link_to "Opciones estudiante", :controller => "estudiantes", :action => "seleccionar"%></p>
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0

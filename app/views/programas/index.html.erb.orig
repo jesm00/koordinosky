@@ -1,14 +1,24 @@
 <h1>Listing programas</h1>
 
+<<<<<<< HEAD
 <table class="table table-hover" style="margin:0; padding:0">
+=======
+<table>
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
   <thead>
     <tr>
       <th>Nombre</th>
       <th>Es maestria</th>
       <th>Duracion</th>
+<<<<<<< HEAD
       <th>Show</th>
       <th>Edit</th>
       <th>Destroy</th>
+=======
+      <th></th>
+      <th></th>
+      <th></th>
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
     </tr>
   </thead>
 
@@ -18,13 +28,27 @@
         <td><%= programa.nombre %></td>
         <td><%= programa.es_maestria %></td>
         <td><%= programa.duracion %></td>
+<<<<<<< HEAD
         <td><%= link_to raw("<i class=\"icon-search\"></i>"), programa %></td>
         <td><%= link_to raw("<i class=\"icon-pencil\"></i>"), edit_programa_path(programa) %></td>
         <td><%= link_to raw("<i class=\"icon-trash\"></i>"), programa, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+=======
+        <td><%= link_to 'Show', programa %></td>
+        <td><%= link_to 'Edit', edit_programa_path(programa) %></td>
+        <td><%= link_to 'Destroy', programa, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
       </tr>
     <% end %>
   </tbody>
 </table>
+<<<<<<< HEAD
 <center><%= page_entries_info @programas %> <%= will_paginate @programas %></center>
 <span><%= link_to 'New Programa', new_programa_path, class:"btn btn-primary",:style=>'color:#FFFFFF;' %></span>
 <br>
+
+=======
+
+<br>
+
+<%= link_to 'New Programa', new_programa_path %>
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0

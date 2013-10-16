@@ -1,0 +1,54 @@
+<h1>Listing estudiantes</h1>
+
+<<<<<<< HEAD
+<table class="table table-hover" style="margin:0; padding:0">
+=======
+<table>
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Email</th>
+      <th>Semestre actual</th>
+<<<<<<< HEAD
+      <th>Show</th>
+      <th>Edit</th>
+      <th>Destroy</th>
+=======
+      <th></th>
+      <th></th>
+      <th></th>
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @estudiantes.each do |estudiante| %>
+      <tr>
+        <td><%= estudiante.nombre %></td>
+        <td><%= estudiante.email %></td>
+        <td><%= estudiante.semestre_actual %></td>
+<<<<<<< HEAD
+        <td><%= link_to raw("<i class=\"icon-search\"></i>"), estudiante %></td>
+        <td><%= link_to raw("<i class=\"icon-pencil\"></i>"), edit_estudiante_path(estudiante) %></td>
+        <td><%= link_to raw("<i class=\"icon-trash\"></i>"), estudiante, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+=======
+        <td><%= link_to 'Show', estudiante %></td>
+        <td><%= link_to 'Edit', edit_estudiante_path(estudiante) %></td>
+        <td><%= link_to 'Destroy', estudiante, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<<<<<<< HEAD
+<center><%= page_entries_info @estudiantes %> <%= will_paginate @estudiantes %></center>
+<span><%= link_to 'New Estudiante', new_estudiante_path, class:"btn btn-primary",:style=>'color:#FFFFFF;' %></span>
+<br>
+
+=======
+
+<br>
+
+<%= link_to 'New Estudiante', new_estudiante_path %>
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0

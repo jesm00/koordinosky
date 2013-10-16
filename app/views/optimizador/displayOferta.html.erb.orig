@@ -1,6 +1,11 @@
 <div align="center">
-	<h1>CURSOS SUGERIDOS</h1>
+<<<<<<< HEAD
+	<h1>Oferta de cursos</h1>
 	<table  id="table_oferta" class="table table-condensed">
+=======
+	<h1>CURSOS SUGERIDOS</h1>
+	<table  id="table_oferta" border="1">
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
 	  	<thead>
 			<tr>
 		  		<th align="center" width="50px">Curso</th>
@@ -19,16 +24,113 @@
     				<p width="200px"><%= oferta.cupos %></p>
     			</td>   
        			<td>
+<<<<<<< HEAD
        				<%=link_to raw("<i class=\"icon-remove\"></i>")+" curso",:controller => "optimizador", :action => "eliminarOferta", :curso_id => id%>
        			</td>   
        			<td>
        				<%=link_to raw("<i class=\"icon-plus\"></i>")+" cupos",:controller => "optimizador", :action => "agregarCupo", :curso_id => id%>
        				<%=link_to raw("<i class=\"icon-minus\"></i>")+" cupo",:controller => "optimizador", :action => "quitarCupo", :curso_id => id%>
+=======
+       				<%=link_to "Eliminar curso", :controller => "optimizador", :action => "eliminarOferta", :curso_id => id%>
+       			</td>   
+       			<td>
+       				<%=link_to "Agregar cupos",:controller => "optimizador", :action => "agregarCupo", :curso_id => id%>
+       				<%=link_to "Quitar cupo",:controller => "optimizador", :action => "quitarCupo", :curso_id => id%>
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
        			</td>    
 		  	</tr>
 	<% end %>
 	  	</tbody>	
 	</table>
+<<<<<<< HEAD
+
+	<br><br>
+
+	<table  id="table_criticos" class="table table-bordered">
+	  	<thead>
+			<tr>
+		  		<th align="center" width="150px">Estudiante</th>
+		  		<th align="center" width="150px">Demanda</th>
+		  		<th align="center" width="150px">Asignadas</th>
+			</tr>
+	  	</thead>
+	  	<tbody>
+
+	<% @conflictosCrtiticos.each do |id,val| %>
+		  	<tr>
+				<td align="center"> 				  
+    				<%= @demandaEstudiantes[id].nombre %>
+    			</td>
+				<td align="center">  
+    				<%= @demandaEstudiantes[id].demanda %>
+    			</td>   
+       			<td>
+       				<%= 0 %>
+       			</td>     
+		  	</tr>
+	<% end %>
+	  	</tbody>	
+	</table>
+
+	<br><br>
+
+	<table  id="table_conflictos" class="table table-bordered">
+	  	<thead>
+			<tr>
+		  		<th align="center" width="150px">Estudiante</th>
+		  		<th align="center" width="150px">Demanda</th>
+		  		<th align="center" width="150px">Asignadas</th>
+			</tr>
+	  	</thead>
+	  	<tbody>
+
+	<% @otrosConflictos.each do |id,val| %>
+		  	<tr>
+				<td align="center"> 				  
+    				<%= @demandaEstudiantes[id].nombre %>
+    			</td>
+				<td align="center">  
+    				<%= @demandaEstudiantes[id].demanda %>
+    			</td>   
+       			<td>
+       				<%= @cuantasEstudiantes[id] %>
+       			</td>     
+		  	</tr>
+	<% end %>
+	  	</tbody>	
+	</table>
+
+	<br><br>
+
+	<table  id="table_demanda" class="table table-condensed">
+	  	<thead>
+			<tr>
+		  		<th align="center" width="150px">Estudiante</th>
+		  		<th align="center" width="150px">Demanda</th>
+		  		<th align="center" width="150px">Asignadas</th>
+			</tr>
+	  	</thead>
+	  	<tbody>
+
+	<% @demandaEstudiantes.each do |id,est| %>
+		  	<tr>
+				<td align="center"> 				  
+    				<%= est.nombre %>
+    			</td>
+				<td align="center">  
+    				<%= est.demanda %>
+    			</td>   
+       			<td>
+       				<%= @cuantasEstudiantes[id] %>
+       			</td>     
+		  	</tr>
+	<% end %>
+	  	</tbody>	
+	</table>
+
+
+	<%= render 'formOferta' %>
+=======
 	<br><br>
 	<%= render 'formOferta' %>
 	
@@ -127,4 +229,5 @@
 	      </td>
 	    </tr>
 	  </table>
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
 </div>

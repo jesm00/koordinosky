@@ -1,6 +1,11 @@
 <div align="center">
+<<<<<<< HEAD
+	<h1 onClick="javascript:pie_chart();">Demanda de los cursos registrados</h1>
+	<table  id="table_demanda" class="table table-condensed"  style="margin:0; padding:0">
+=======
 	<h1>Demanda de los cursos registrados</h1>
 	<table  id="table_demanda" border="1">
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
 	  <thead>
 		<tr>
 		  <th align="center">Curso</th>
@@ -14,12 +19,17 @@
 		  <tr>
 			<td align="center"><%= dem.nombre %></td>
 			<td align="center"><%= dem.demanda %></td> 
+<<<<<<< HEAD
+			<td align="center"><p><%=link_to "Obtener asignacion de cupos",{:controller => "optimizador", :action => "asignacionCupos", :curso_id => dem.id_curso}, :style=>'color:#0088cc;'%></p></td>         
+=======
 			<td align="center"><p><%=link_to "Obtener asignacion de cupos",:controller => "optimizador", :action => "asignacionCupos", :curso_id => dem.id_curso%></p></td>         
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
 		  </tr>
 		<% end %>
 	  </tbody>
 	</table>
 </div>
+<<<<<<< HEAD
 
 <div id="chart_div" align="center"></div>
     <script type="text/javascript">
@@ -97,3 +107,5 @@ function mostrar_pie_high_charts(){
 }
 </script> 
  
+=======
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0

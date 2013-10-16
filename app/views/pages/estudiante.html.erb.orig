@@ -1,0 +1,8 @@
+<h1>Opciones para el estudiante <%=@estudiante.nombre%></h1>
+<<<<<<< HEAD
+<p><%=link_to "Agregar materia",{:controller => "plans", :action => "index", :estudiante_id => @estudiante.id}, class:"btn btn-primary",:style=>'color:#FFFFFF;'%></p>
+<p><%=link_to "Volver", "/index", :style=>'color:#0088cc;'%></p>
+=======
+<p><%=link_to "Agregar materia",:controller => "plans", :action => "index", :estudiante_id => @estudiante.id%></p>
+<p><%=link_to "Volver", "/index"%></p>
+>>>>>>> a43b58bf47eb757da26516c2e225d984f7920eb0
