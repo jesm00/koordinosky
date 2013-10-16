@@ -364,7 +364,7 @@ Before do |scenario|
 	    valido3=Valida.create(:curso_id => curso3.id, :programa_id => programa.id)
   end
    #Escenario de prueba para el feature Determinar conflictos de horario
-  if scenario.title=='Sugerir Pensum'
+  if scenario.title=='Sugerir Pensum 4 semestres'||scenario.title=='Sugerir Pensum 3 semestres'||scenario.title=='Sugerir Pensum 2 semestres'||scenario.title=='Sugerir Pensum 1 semestre'
   	  	programa=Programa.create(:nombre => 'Programa maestria prueba',:es_maestria => true, :duracion => 4)
 
   	  	curso1=Curso.create(:nombre => 'Curso prueba 1', :creditos => 4)
@@ -376,11 +376,19 @@ Before do |scenario|
 	    pensum2=Pensum.create(:curso_id => curso2.id, :programa_id =>programa.id, :semestre=>2)
 	    pensum3=Pensum.create(:curso_id => curso3.id, :programa_id =>programa.id, :semestre=>3)
 	    pensum4=Pensum.create(:curso_id => curso4.id, :programa_id =>programa.id, :semestre=>4)
+	   
 
-	    estudiante1=Estudiante.create(:nombre => 'Estudiante prueba 1', :email => 'a@a.a', :semestre_actual => 1, :programa_id => programa.id, :password => '123456', :password_confirmation => '123456')
-	    estudiante2=Estudiante.create(:nombre => 'Estudiante prueba 2', :email => 'b@b.b', :semestre_actual => 2, :programa_id => programa.id, :password => '123456', :password_confirmation => '123456')
-	    estudiante3=Estudiante.create(:nombre => 'Estudiante prueba 3', :email => 'c@c.c', :semestre_actual => 3, :programa_id => programa.id, :password => '123456', :password_confirmation => '123456')
-	    estudiante4=Estudiante.create(:nombre => 'Estudiante prueba 4', :email => 'd@d.d', :semestre_actual => 4, :programa_id => programa.id, :password => '123456', :password_confirmation => '123456')
+  end
 
+  #Escenario de prueba para el feature Organizar materias por demanda  
+  if scenario.title=='Eliminar materia plan'
+	  programa=Programa.create(:nombre => 'Programa prueba',:es_maestria => true, :duracion => 4)
+	  estudiante1=Estudiante.create(:nombre => 'Estudiante prueba 1', :email => 'a@a.a', :semestre_actual => 3, :programa_id => programa.id, :password => '123456', :password_confirmation => '123456')
+
+	  curso1=Curso.create(:nombre => 'Curso prueba 1', :creditos => 4)
+
+
+		#Todos los estudiantes quieren ver el curso 1
+		Plan.create(:curso_id=>curso1.id,:estudiante_id => estudiante1.id, :semestre => "201410")
   end
 end
