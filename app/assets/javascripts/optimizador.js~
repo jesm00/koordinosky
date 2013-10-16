@@ -11,7 +11,7 @@ function desplegar(tabla_a_desplegar,estadoT, estadoTfila)
 	  break;
 	default:
 	  tablA.style.display = "none";
-	  estadOt.innerHTML = "Mostrar";
+	  estadOt.innerHTML = "Mostrar"
 	  break;
   }
 }

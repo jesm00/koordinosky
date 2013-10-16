@@ -68,7 +68,8 @@ class OptimizadorController < ApplicationController
 
 		#Calcular la asiganción de las diferencias materias y contar cuanats materias se asignaron a cada estudiante
 		@asignadasEstudiantes=Hash.new	
-		@cuantasEstudiantes=Hash.new		
+		@cuantasEstudiantes=Hash.new	
+		@ofertaSorted=$ofertaDeCursos.sort_by { |id, oferta| oferta.cupos }.reverse	
 
 		$ofertaDeCursos.each do |id,oferta|			
 			@ofertaCurso=oferta
