@@ -8,4 +8,4 @@ Feature: Eliminar Cupo
 		When I click link "Obtener oferta sugerida"
 		Then I should see "CURSOS SUGERIDOS"
 		And I click link number "2" in table "table_oferta" in row "1" in column "4"
-		And I should see content "11" in table "table_oferta" in the position "1", "2"
+		And I should see content "11" in table "table_oferta" in the position "2", "2"

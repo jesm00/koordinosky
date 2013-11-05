@@ -288,7 +288,7 @@ Before do |scenario|
   end
 
   #Escenario de prueba para el feature Determinar conflictos de horario
-  if scenario.title=='Sugerir Oferta' ||  scenario.title=='Sugerir Oferta' || scenario.title=='Agregar Cupo' || scenario.title=='Eliminar Cupo' || scenario.title=='Determinar Conflictos Criticos' || scenario.title=='Determinar Conflictos Leves'
+  if scenario.title=='Ir a asignacion' ||scenario.title=='Volver a sugerencia' ||scenario.title=='Sugerir Oferta' ||  scenario.title=='Sugerir Oferta' || scenario.title=='Agregar Cupo' || scenario.title=='Eliminar Cupo' || scenario.title=='Determinar Conflictos Criticos' || scenario.title=='Determinar Conflictos Leves'
   	  	programa=Programa.create(:nombre => 'Programa maestria prueba',:es_maestria => true, :duracion => 4)
 	    estudiante1=Estudiante.create(:nombre => 'Estudiante prueba 1', :email => 'a@a.a', :semestre_actual => 1, :programa_id => programa.id, :password => '123456', :password_confirmation => '123456')
 	    estudiante2=Estudiante.create(:nombre => 'Estudiante prueba 2', :email => 'b@b.b', :semestre_actual => 2, :programa_id => programa.id, :password => '123456', :password_confirmation => '123456')

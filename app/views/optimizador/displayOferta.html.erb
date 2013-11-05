@@ -38,11 +38,11 @@
 	  <table id="table_conflictos_criticos" border="1" width="100%">
 	    <tr>
 	      <td>Conflictos Criticos(<%= @conflictosCrtiticos.count %>)</td>
-	      <td width="100px"><div align="center" id="estadoT" onClick="desplegar('tabla_a_desplegar_critico','estadoT', 'estadoTfila')" style="background: #EE5566; cursor: pointer;">Mostrar</div></td>
+	      <td width="100px"><div align="center" id="estadoT" onClick="desplegar('tabla_a_desplegar_critico','estadoT', 'estadoTfila')" style="background: #EE5566; cursor: pointer;">Ocultar</div></td>
 	    </tr>
 	    <tr>
 	      <td align="center" border="3" colspan="2">
-	        <table  id="tabla_a_desplegar_critico" style="display:none;">
+	        <table  id="tabla_a_desplegar_critico" style="display:block;">
 	            <tr style="background: #CCCCCC" align="center">
 	              <th align="center" width="310px">Estudiante</th>
 			  	  <th align="center" width="310px"># Materias preinscritas</th>
@@ -69,11 +69,11 @@
 	<table id="table_otros_conflictos" border="1" width="100%">
 	    <tr>
 	      <td>Conflictos Leves(<%= @otrosConflictos.count %>)</td>
-	      <td width="100px"><div align="center" id="estadoT1" onClick="desplegar('tabla_a_desplegar_leve','estadoT1', 'estadoTfila')" style="background: #EE5566; cursor: pointer;">Mostrar</div></td>
+	      <td width="100px"><div align="center" id="estadoT1" onClick="desplegar('tabla_a_desplegar_leve','estadoT1', 'estadoTfila')" style="background: #EE5566; cursor: pointer;">Ocultar</div></td>
 	    </tr>
 	    <tr>
 	      <td align="center" border="3" colspan="2">
-	        <table  id="tabla_a_desplegar_leve" style="display:none;">
+	        <table  id="tabla_a_desplegar_leve" style="display:block;">
 	            <tr style="background: #CCCCCC" align="center">
 	              <th align="center" width="310px">Estudiante</th>
 			  	  <th align="center" width="310px"># Materias preinscritas</th>
@@ -100,11 +100,11 @@
 	<table id="table_demanda_cursos" border="1" width="100%">
 	    <tr>
 	      <td>Demanda Total de Cupos(<%= @demandaEstudiantes.count %>)</td>
-	      <td width="100px"><div align="center" id="estadoT2" onClick="desplegar('tabla_a_desplegar_demanda','estadoT2', 'estadoTfila')" style="background: #CC3322; cursor: pointer;">Mostrar</div></td>
+	      <td width="100px"><div align="center" id="estadoT2" onClick="desplegar('tabla_a_desplegar_demanda','estadoT2', 'estadoTfila')" style="background: #CC3322; cursor: pointer;">Ocultar</div></td>
 	    </tr>
 	    <tr>
 	      <td align="center" border="3" colspan="2">
-	        <table  id="tabla_a_desplegar_demanda" style="display:none;">
+	        <table  id="tabla_a_desplegar_demanda" style="display:block;">
 	            <tr style="background: #CCCCCC" align="center">
 	              <th align="center" width="310px">Estudiante</th>
 			  	  <th align="center" width="310px"># Materias preinscritas</th>
