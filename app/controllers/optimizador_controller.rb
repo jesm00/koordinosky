@@ -11,11 +11,22 @@ class OptimizadorController < ApplicationController
 			end
 		end
 		calcularAsignacionOferta()
+		render "optimizador/displayOferta"
+	end
+
+	def ultimaOferta
+		if $ofertaDeCursos.nil?
+			sugerirOferta()
+		else	
+			calcularAsignacionOferta()		
+			render "optimizador/displayOferta"
+		end
 	end
 
 	def eliminarOferta
 		$ofertaDeCursos.delete(params[:curso_id].to_i)
-		calcularAsignacionOferta()
+		calcularAsignacionOferta()		
+			render "optimizador/displayOferta"
 	end
 
 	def agregarOferta
@@ -29,7 +40,8 @@ class OptimizadorController < ApplicationController
 				$ofertaDeCursos[params[:curso_id].to_i].cupos+=params[:cupos].to_i
 			end
 		end
-		calcularAsignacionOferta()
+		calcularAsignacionOferta()		
+		render "optimizador/displayOferta"
 	end
 
 	def agregarCupo
@@ -38,7 +50,8 @@ class OptimizadorController < ApplicationController
 				$ofertaDeCursos[params[:curso_id].to_i].cupos+=1
 			end
 		end
-		calcularAsignacionOferta()
+		calcularAsignacionOferta()		
+		render "optimizador/displayOferta"
 	end
 
 	def quitarCupo
@@ -50,7 +63,8 @@ class OptimizadorController < ApplicationController
 				end
 			end
 		end
-		calcularAsignacionOferta()
+		calcularAsignacionOferta()		
+		render "optimizador/displayOferta"
 	end
 
 	def calcularAsignacionOferta
@@ -79,7 +93,6 @@ class OptimizadorController < ApplicationController
 		@conflictosCrtiticos=Hash.new
 		@otrosConflictos=Hash.new
 		calcularConlfictos()
-		render "optimizador/displayOferta"
 	end
 
 	def calcularConlfictos
@@ -107,8 +120,11 @@ class OptimizadorController < ApplicationController
 	end
 
 	def asignacionCupos	
-		#TODO Recibir por parametro los cupos que se ofrecen
-		#cupos=params[:cupos].to_i
+		if params[:cupos].nil?
+			cupos=12
+		else
+			cupos=params[:cupos].to_i
+		end
 		idCurso=params[:curso_id].to_i
 		#Si el id de curso no es valido
 		if idCurso!=0
@@ -118,7 +134,6 @@ class OptimizadorController < ApplicationController
 		if curso.nil?
 			curso=Curso.first()
 		end
-		cupos=12
 		@ofertaCurso=Oferta.new(curso,cupos)
 		obtenerDemandaActual()
 		

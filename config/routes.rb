@@ -56,7 +56,10 @@ Koordinosky::Application.routes.draw do
   post '/optimizador/agregarCupo' => 'optimizador#agregarCupo' 
 
   get '/optimizador/quitarCupo' => 'optimizador#quitarCupo'
-  post '/optimizador/quitarCupo' => 'optimizador#quitarCupo'
+  post '/optimizador/quitarCupo' => 'optimizador#quitarCupo'  
+
+  get '/optimizador/ultimaOferta' => 'optimizador#ultimaOferta'
+  post '/optimizador/ultimaOferta' => 'optimizador#ultimaOferta'
 
   get ':action' => 'pages'
   post ':action' => 'pages'

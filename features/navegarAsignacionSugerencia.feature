@@ -11,5 +11,5 @@ Feature: Navegar asignacion
 	Scenario: Volver a sugerencia
 		Given I am on "/optimizador/sugerirOferta"
 		When I click link number "1" in table "table_oferta" in row "1" in column "1"
-		And I click button "Volver"
+		And I click link "Volver"
 		Then I should see "CURSOS SUGERIDOS"

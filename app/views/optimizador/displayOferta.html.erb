@@ -13,7 +13,7 @@
 	<% @ofertaSorted.each do |id,oferta| %>
 		  	<tr>
 				<td align="center" width="50px">				  
-    				<p width="50px"><%= oferta.materia.nombre %></p>
+    				<%= link_to oferta.materia.nombre,:controller => "optimizador", :action => "asignacionCupos", :curso_id => oferta.materia.id, :cupos => oferta.cupos%>
     			</td>
 				<td align="center" width="200px">  
     				<p width="200px"><%= oferta.cupos %></p>
