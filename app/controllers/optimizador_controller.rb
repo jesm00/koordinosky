@@ -1,7 +1,7 @@
 class OptimizadorController < ApplicationController
 
 	def estadisticas
-		@cursos = Curso.paginate(page: params[:page], :per_page => 10)
+		ultimaOferta(false)
 		render "optimizador/estadisticas"
 	end
 
@@ -19,12 +19,14 @@ class OptimizadorController < ApplicationController
 		render "optimizador/displayOferta"
 	end
 
-	def ultimaOferta
+	def ultimaOferta(render=true)
 		if $ofertaDeCursos.nil?
 			sugerirOferta()
 		else	
-			calcularAsignacionOferta()		
-			render "optimizador/displayOferta"
+			calcularAsignacionOferta()	
+			if render	
+				render "optimizador/displayOferta"
+			end
 		end
 	end
 
@@ -97,6 +99,7 @@ class OptimizadorController < ApplicationController
 		end
 		@conflictosCrtiticos=Hash.new
 		@otrosConflictos=Hash.new
+		@sinProblemas=Hash.new
 		calcularConlfictos()
 	end
 
@@ -106,6 +109,8 @@ class OptimizadorController < ApplicationController
 				@conflictosCrtiticos[id]=true
 			elsif @cuantasEstudiantes[id]!=est.demanda
 				@otrosConflictos[id]=true
+			else
+				@sinProblemas[id]=true
 			end
 		end
 	end
