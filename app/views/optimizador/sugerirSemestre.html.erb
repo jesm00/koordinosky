@@ -34,7 +34,7 @@ Maximo <%= text_field :val_maximo, '', :id=>"maximo", :style => 'width: 60px;', 
     <% end %>
   </tbody>
 </table>
-<span style="float:right;"><%= link_to 'Obtener Sugerencia',{:controller => "optimizador", :action => "ultimaOferta"},:class=>"btn btn-info",:style=>'color:#FFFFFF;' %></span>
+<span style="float:right;"><%= link_to 'Obtener Sugerencia','javascript:enviar()',:class=>"btn btn-info",:style=>'color:#FFFFFF;' %></span>
 <br>
 
 <script type="text/javascript">
@@ -77,6 +77,34 @@ function asignar() {
         });
       }
   });
+}
+
+function enviar() {
+  var fWait=new Array();
+  $("input:checkbox[name='curso_group[]']").each(function () 
+  {
+      id=$(this).val();
+      $("input:text[id='minimo_"+id+"']").each(function() {
+          fWait.push($.ajax({
+              url:"setMinimo", 
+              type: 'POST',        
+              dataType: "json",
+              data:  {curso_id: id,minimo: $(this).val()}
+          })); 
+      });
+      $("input:text[id='maximo_"+id+"']").each(function() {
+        fWait.push($.ajax({
+              url:"setMaximo", 
+              type: 'POST',        
+              dataType: "json",
+              data:  {curso_id: id,maximo: $(this).val()}
+          })); 
+      });
+  });
+  $.when(fWait).done(function(){
+  window.location = "sugerirOferta"
+  } );
+
 }
 
 </script>

@@ -10,6 +10,24 @@ class OptimizadorController < ApplicationController
 		render "optimizador/sugerirSemestre"
 	end	
 
+	def setMinimo
+		if $minimos.nil?
+			$minimos=Hash.new
+		end
+		if not(params[:curso_id].nil?||params[:minimo].to_i<=0)
+			$minimos[params[:curso_id]]=params[:minimo].to_i
+		end
+	end
+
+	def setMaximo		
+		if $maximos.nil?
+			$maximos=Hash.new
+		end
+		if not(params[:curso_id].nil?||params[:maximo].to_i<=0)
+			$maximos[params[:curso_id]]=params[:maximo].to_i
+		end
+	end
+
 	def sugerirOferta
 		$ofertaDeCursos=Hash.new
 		Curso.all.each do |curso|

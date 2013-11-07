@@ -35,8 +35,18 @@ Then(/^I should see "(.*?)"$/) do |regexp|
   page.should have_content(regexp)
 end
 
+When(/^I check "(.*?)"$/) do |checkBox|
+  check checkBox
+end
+
+Then(/^I should see field "(.*?)" with value "(.*?)"$/) do |field, exValue|
+  find_field(field).value.should eq exValue
+end
+
 Then(/^I should see content "(.*?)" in table "(.*?)" in the position "(.*?)", "(.*?)"$/) do |text, table, row, column|
   	within (first('table#'+table+' tr:nth-child('+row+') td:nth-child('+column+')')) do
   		page.should have_content text
 	end
+
+
 end

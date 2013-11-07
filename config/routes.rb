@@ -35,10 +35,15 @@ Koordinosky::Application.routes.draw do
 		get 'seleccionar'
 	  end
 	end
+  get '/optimizador/setMinimo' => 'optimizador#setMinimo'
+  post '/optimizador/setMinimo' => 'optimizador#setMinimo'
+
+  get '/optimizador/setMaximo' => 'optimizador#setMaximo'
+  post '/optimizador/setMaximo' => 'optimizador#setMaximo'
   
   get '/optimizador/estadisticas' => 'optimizador#estadisticas'
   post '/optimizador/estadisticas' => 'optimizador#estadisticas'
-  
+
   get '/optimizador/sugerirSemestre' => 'optimizador#sugerirSemestre'
   post '/optimizador/sugerirSemestre' => 'optimizador#sugerirSemestre'
 	  
