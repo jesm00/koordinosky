@@ -7,6 +7,8 @@ class OptimizadorController < ApplicationController
 
 	def sugerirSemestre
 		@cursos = Curso.all
+		$maximos=nil
+		$minimos=nil
 		render "optimizador/sugerirSemestre"
 	end	
 
