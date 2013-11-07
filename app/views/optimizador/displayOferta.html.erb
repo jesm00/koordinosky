@@ -30,7 +30,7 @@
 	  	</tbody>	
 	</table>
 	<br><br>
-	<%= link_to 'Ver estadisticas', class:"btn btn-info",:style=>'color:#FFFFFF;',:controller => "optimizador", :action => "estadisticas" %>
+	<%= link_to 'Ver estadisticas',{:controller => "optimizador", :action => "estadisticas"},:class=>"btn btn-info",:style=>'color:#FFFFFF;' %>
 	<br><br>
 	<%= render 'formOferta' %>
 	
