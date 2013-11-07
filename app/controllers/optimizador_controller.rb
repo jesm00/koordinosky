@@ -1,5 +1,10 @@
 class OptimizadorController < ApplicationController
 
+	def estadisticas
+		@cursos = Curso.paginate(page: params[:page], :per_page => 10)
+		render "optimizador/estadisticas"
+	end
+
 	def sugerirOferta
 		$ofertaDeCursos=Hash.new
 		Curso.all.each do |curso|

@@ -35,6 +35,9 @@ Koordinosky::Application.routes.draw do
 		get 'seleccionar'
 	  end
 	end
+  
+  get '/optimizador/estadisticas' => 'optimizador#estadisticas'
+  post '/optimizador/estadisticas' => 'optimizador#estadisticas'
 	  
   get '/optimizador/asignacionCupos' => 'optimizador#asignacionCupos'
   post '/optimizador/asignacionCupos' => 'optimizador#asignacionCupos'
