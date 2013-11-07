@@ -1,0 +1,82 @@
+<h1 >Sugerir Semestre</h1> 
+
+<div style="float:right;">
+<%= link_to raw("<i class=\"icon-ok\"></i>"), 'javascript:mostrar_check()', class:"btn btn-info" %>
+<%= link_to 'Asignar', 'javascript:asignar()', class:"btn btn-info",:style=>'color:#FFFFFF;' %>
+</div>
+<div style="text-align: center">
+Minimo <%= text_field :val_minimo, '', :id=>"minimo", :style => 'width: 60px;', :maxlength => 3 %>
+&nbsp
+Maximo <%= text_field :val_maximo, '', :id=>"maximo", :style => 'width: 60px;', :maxlength => 3 %>
+</div>
+
+<table class="table table-hover table-condensed" style="margin:0; padding:0">
+  <thead>
+    <tr>
+      <th><div id="selecc" style="display:block"> <input id="chk_all" type="checkbox"/></div></th>
+      <th>Nombre</th>
+      <th>Creditos</th>
+      <th>Minimo</th>
+      <th>Maximo</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @cursos.each do |curso| %>
+      <tr style="padding: 10px;">
+      	<td><input value="<%= curso.id%>" type="checkbox" style="display:block" name="curso_group[]"></td>
+        <td><%= curso.nombre %></td>
+        <td><%= curso.creditos %></td>
+        <td><%= text_field :minimo, '', :id=>"minimo_"+curso.id.to_s, :style => 'width: 60px;', :maxlength => 3 %></td>
+        <td><%= text_field :maximo, '', :id=>"maximo_"+curso.id.to_s, :style => 'width: 60px;', :maxlength => 3 %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<span style="float:right;"><%= link_to 'Obtener Sugerencia',{:controller => "optimizador", :action => "ultimaOferta"},:class=>"btn btn-info",:style=>'color:#FFFFFF;' %></span>
+<br>
+
+<script type="text/javascript">
+function mostrar_check() {
+    if ($('input[type=checkbox]').is(':visible') && $('#DivBlock').parents(':hidden').length == 0) {
+        $("input[type=checkbox]").fadeOut('slow')
+        $("#selecc").fadeOut('slow')
+    } else {
+        $("input[type=checkbox]").fadeIn('slow')
+        $("#selecc").fadeIn('slow')
+    }
+}
+
+ $("#chk_all").click(function () {
+        if ($("#chk_all").is(':checked')) {
+            $("input:checkbox[name='curso_group[]']").each(function () {
+                $(this).prop("checked", true);
+            });
+
+        } else {
+            $("input:checkbox[name='curso_group[]']").each(function () {
+                $(this).prop("checked", false);
+            });
+        }
+ })
+
+function asignar() {
+	minimo=$("#minimo").val();
+	maximo=$("#maximo").val();
+  $("input:checkbox[name='curso_group[]']").each(function () 
+  {
+      if($(this).is(':checked'))
+      {
+        id=$(this).val();
+        $("input:text[id='minimo_"+id+"']").each(function() {
+          $(this).val(minimo,"value");
+        });
+        $("input:text[id='maximo_"+id+"']").each(function() {
+          $(this).val(maximo,"value");
+        });
+      }
+  });
+}
+
+</script>

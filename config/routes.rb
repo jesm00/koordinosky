@@ -38,6 +38,9 @@ Koordinosky::Application.routes.draw do
   
   get '/optimizador/estadisticas' => 'optimizador#estadisticas'
   post '/optimizador/estadisticas' => 'optimizador#estadisticas'
+  
+  get '/optimizador/sugerirSemestre' => 'optimizador#sugerirSemestre'
+  post '/optimizador/sugerirSemestre' => 'optimizador#sugerirSemestre'
 	  
   get '/optimizador/asignacionCupos' => 'optimizador#asignacionCupos'
   post '/optimizador/asignacionCupos' => 'optimizador#asignacionCupos'

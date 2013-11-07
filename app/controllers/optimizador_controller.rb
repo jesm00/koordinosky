@@ -5,6 +5,11 @@ class OptimizadorController < ApplicationController
 		render "optimizador/estadisticas"
 	end
 
+	def sugerirSemestre
+		@cursos = Curso.all
+		render "optimizador/sugerirSemestre"
+	end	
+
 	def sugerirOferta
 		$ofertaDeCursos=Hash.new
 		Curso.all.each do |curso|
