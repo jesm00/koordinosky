@@ -89,7 +89,8 @@ function enviar() {
               url:"setMinimo", 
               type: 'POST',        
               dataType: "json",
-              data:  {curso_id: id,minimo: $(this).val()}
+              data:  {curso_id: id,minimo: $(this).val()},
+              async: false
           })); 
       });
       $("input:text[id='maximo_"+id+"']").each(function() {
@@ -97,13 +98,12 @@ function enviar() {
               url:"setMaximo", 
               type: 'POST',        
               dataType: "json",
-              data:  {curso_id: id,maximo: $(this).val()}
+              data:  {curso_id: id,maximo: $(this).val()},
+              async: false
           })); 
       });
   });
-  $.when(fWait).done(function(){
-  window.location = "sugerirOferta"
-  } );
+      window.location = "sugerirOferta";
 
 }
 

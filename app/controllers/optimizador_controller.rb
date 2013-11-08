@@ -17,7 +17,7 @@ class OptimizadorController < ApplicationController
 			$minimos=Hash.new
 		end
 		if not(params[:curso_id].nil?||params[:minimo].to_i<=0)
-			$minimos[params[:curso_id]]=params[:minimo].to_i
+			$minimos[params[:curso_id].to_i]=params[:minimo].to_i
 		end
 	end
 
@@ -26,7 +26,7 @@ class OptimizadorController < ApplicationController
 			$maximos=Hash.new
 		end
 		if not(params[:curso_id].nil?||params[:maximo].to_i<=0)
-			$maximos[params[:curso_id]]=params[:maximo].to_i
+			$maximos[params[:curso_id].to_i]=params[:maximo].to_i
 		end
 	end
 
