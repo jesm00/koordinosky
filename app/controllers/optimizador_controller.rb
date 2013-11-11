@@ -31,6 +31,7 @@ class OptimizadorController < ApplicationController
 	end
 
 	def sugerirOferta
+		validarMinimoMaximo()
 		$ofertaDeCursos=Hash.new
 		Curso.all.each do |curso|
 			@ofertaCurso=Oferta.new(curso,30)
@@ -49,6 +50,21 @@ class OptimizadorController < ApplicationController
 
 		obtenerSugerenciaOptima()
 		render "optimizador/displayOferta"
+	end
+
+	def validarMinimoMaximo
+		#Revisar que los minimos sean menores que los maximos, de lo contrario cambiarlos
+		if not($minimos.nil?||$maximos.nil?)
+			#Para cada uno de los minimos
+			$minimos.each do |id,minimo|
+				#Si el maximo asociado existe, y el minimo es mayor que el maximo
+				if not($maximos[id].nil?)&&minimo>$maximos[id]
+					#Intercambiarlos
+					$minimos[id]=$maximos[id]
+					$maximos[id]=minimo
+				end
+			end
+		end
 	end
 
 	def obtenerSugerenciaOptima
@@ -73,9 +89,9 @@ class OptimizadorController < ApplicationController
 		#Buscar el curso que esta más lejos de cumplir el mínimo de cupos
 		$ofertaDeCursos.each do |id,oferta|
 			#Si para este curso hay definido un minimo y la diferencia entre los asignados y el minimo es mayor que la mayor diferencia encontrada hasta ahora
-			if not($minimos.nil?||$minimos[id].nil?)&&($minimos[id]-@asignadosCurso[id].count>difMin)
+			if not($minimos.nil?||$minimos[id].nil?)&&($minimos[id]-$asignadosCurso[id].count>difMin)
 				aEliminar=id
-				difMin=$minimos[id]-@asignadosCurso[id].count
+				difMin=$minimos[id]-$asignadosCurso[id].count
 			end
 		end
 		#Si no se encontro ninguno devolver false indicando que se cumplieron los requisitos
@@ -86,7 +102,7 @@ class OptimizadorController < ApplicationController
 		$ofertaDeCursos.delete(aEliminar)
 		cursoEliminar=Curso.find(aEliminar)
 		#Para cada uno de los estudiantes que tenian asignado este curso
-		@asignadosCurso[aEliminar].each do |id,val|
+		$asignadosCurso[aEliminar].each do |id,val|
 			#Eliminar el curso de la lista de asignadas para el estudiante
 			@asignadasEstudiantes[id].delete(cursoEliminar)
 			#Indicar que el estudiante tiene una materia menos asignada
@@ -94,7 +110,7 @@ class OptimizadorController < ApplicationController
 		end
 
 		#Eliminar los asignados a esta materia
-		@asignadosCurso.delete(aEliminar)
+		$asignadosCurso.delete(aEliminar)
 		return true
 	end
 
@@ -102,7 +118,7 @@ class OptimizadorController < ApplicationController
 
 		$ofertaDeCursos.each do |id,oferta|
 			if $ofertaDeCursos[id].cupos==10000||(not($maximos.nil?||$maximos[id].nil?)&&$ofertaDeCursos[id].cupos==$maximos[id])
-				$ofertaDeCursos[id].cupos=@asignadosCurso[id].count
+				$ofertaDeCursos[id].cupos=$asignadosCurso[id].count
 			end
 		end
 
@@ -131,9 +147,9 @@ class OptimizadorController < ApplicationController
 	    			break
 	    		end
 	    		#Si este curso se esta ofreciendo y queda al menos un cupo libre
-	    		if not($ofertaDeCursos[plan.curso.id].nil?||$ofertaDeCursos[plan.curso.id].cupos<=@asignadosCurso[plan.curso.id].count)
+	    		if not($ofertaDeCursos[plan.curso.id].nil?||$ofertaDeCursos[plan.curso.id].cupos<=$asignadosCurso[plan.curso.id].count)
 	    			#Asignar al estudiante al curso
-	    			@asignadosCurso[plan.curso.id][id]=true
+	    			$asignadosCurso[plan.curso.id][id]=true
 	    			asignadas+=1
 	    			#Modificar las cuaentas para indicar que el estudiante fue asignado
 					if @cuantasEstudiantes[id].nil?
@@ -163,9 +179,9 @@ class OptimizadorController < ApplicationController
 	    			break
 	    		end
 	    		#Si este curso se esta ofreciendo, queda al menos un cupo libre y este curso no se le asigno previamente al estudiante
-	    		if not($ofertaDeCursos[plan.curso.id].nil?||$ofertaDeCursos[plan.curso.id].cupos<=@asignadosCurso[plan.curso.id].count)&&(@asignadosCurso[plan.curso.id][id].nil?||not(@asignadosCurso[plan.curso.id][id]))
+	    		if not($ofertaDeCursos[plan.curso.id].nil?||$ofertaDeCursos[plan.curso.id].cupos<=$asignadosCurso[plan.curso.id].count)&&($asignadosCurso[plan.curso.id][id].nil?||not($asignadosCurso[plan.curso.id][id]))
 	    			#Asignar al estudiante al curso
-	    			@asignadosCurso[plan.curso.id][id]=true
+	    			$asignadosCurso[plan.curso.id][id]=true
 	    			asignadas+=1
 	    			#Modificar las cuaentas para indicar que el estudiante fue asignado
 					if @cuantasEstudiantes[id].nil?
@@ -186,7 +202,7 @@ class OptimizadorController < ApplicationController
 		if $ofertaDeCursos.nil?
 			sugerirOferta()
 		else	
-			calcularAsignacionOferta()	
+			obtenerSugerenciaOptima()	
 			if render	
 				render "optimizador/displayOferta"
 			end
@@ -256,12 +272,12 @@ class OptimizadorController < ApplicationController
 		@ofertaSorted=$ofertaDeCursos.sort_by { |id, oferta| oferta.cupos }.reverse	
 
 		#Guardar la lista de estudiantes asignados a cada curso
-		@asignadosCurso=Hash.new
+		$asignadosCurso=Hash.new
 
 		$ofertaDeCursos.each do |id,oferta|			
 			@ofertaCurso=oferta
 			obtenerDemandaActual()
-			@asignadosCurso[id]=@asignados
+			$asignadosCurso[id]=@asignados
 			contarAsignadas()
 		end
 		@conflictosCrtiticos=Hash.new
@@ -310,12 +326,45 @@ class OptimizadorController < ApplicationController
 		#Si el id era invalido y aun no se a cargado un curso cargar el primero de la base de datos
 		if curso.nil?
 			curso=Curso.first()
+		end		
+		#Si no existe una asignación global hacer la asignación local
+		if $asignadosCurso.nil?||$asignadosCurso[curso.id].nil?
+			@ofertaCurso=Oferta.new(curso,cupos)
+			obtenerDemandaActual()
+		#Si la asignación global existe usarla
+		else
+			@ofertaCurso=$ofertaDeCursos[curso.id]
+			@asignados=$asignadosCurso[curso.id]
+			calcularDemanda()
+			determinarPrograma()
 		end
-		@ofertaCurso=Oferta.new(curso,cupos)
-		obtenerDemandaActual()
 		
 		#Hacer render a la pagina resultado
 		render "optimizador/asignacion"
+	end
+
+	def determinarPrograma
+		@asignadosAltaPrioridad=Array.new
+		@asignadosMismaMaestria=Array.new
+		@asignadosOtraMaestria=Array.new
+		@asignadosPregrado=Array.new
+		@noAsignadosAltaPrioridad=Array.new
+		@noAsignadosMismaMaestria=Array.new
+		@noAsignadosOtraMaestria=Array.new
+		@noAsignadosPregrado=Array.new
+
+		@asignados.each do |id,val|
+			est=Estudiante.find(id)
+			if est.semestre_actual==est.programa.duracion
+				@asignadosAltaPrioridad.push(est)
+			elsif not(est.programa.es_maestria)
+				@asignadosPregrado.push(est)
+			elsif @ofertaCurso.materia.esValida(est.programa.id)
+				@asignadosMismaMaestria.push(est)
+			else
+				@asignadosOtraMaestria.push(est)
+			end
+		end
 	end
 
 	def obtenerDemandaActual
