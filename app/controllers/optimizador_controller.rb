@@ -36,12 +36,150 @@ class OptimizadorController < ApplicationController
 			@ofertaCurso=Oferta.new(curso,30)
 			calcularDemanda()
 			if @demandaCurso>0
-				@ofertaCurso.cupos=@demandaCurso
+				#Si se definio un máximo usar ese máximo como número de cupos inicial
+				#Si no usar un valor arbitrariamente grande porque no hay limite (10000)
+				if $maximos.nil?||$maximos[curso.id].nil?
+					@ofertaCurso.cupos=10000
+				else
+					@ofertaCurso.cupos=$maximos[curso.id]
+				end
 				$ofertaDeCursos[curso.id]=@ofertaCurso
 			end
 		end
-		calcularAsignacionOferta()
+
+		obtenerSugerenciaOptima()
 		render "optimizador/displayOferta"
+	end
+
+	def obtenerSugerenciaOptima
+		#Calcular asignación inicial
+		calcularAsignacionOferta()
+		#Se va a eliminar de a un curso que no cumple con los minimos requeridos
+		begin	
+			#Recalcular conflictos
+			recalcularConflictos()	  
+			#Intentar asignar conflictos a materias que no esten llenas
+			reasignarConflictos()
+		end while eliminarNoCumplenMinimos()
+		#Recalcular conflictos para estadisticas
+		recalcularConflictos()
+
+		contarCuposFinales()
+	end
+
+	def eliminarNoCumplenMinimos
+		aEliminar=nil
+		difMin=0
+		#Buscar el curso que esta más lejos de cumplir el mínimo de cupos
+		$ofertaDeCursos.each do |id,oferta|
+			#Si para este curso hay definido un minimo y la diferencia entre los asignados y el minimo es mayor que la mayor diferencia encontrada hasta ahora
+			if not($minimos.nil?||$minimos[id].nil?)&&($minimos[id]-@asignadosCurso[id].count>difMin)
+				aEliminar=id
+				difMin=$minimos[id]-@asignadosCurso[id].count
+			end
+		end
+		#Si no se encontro ninguno devolver false indicando que se cumplieron los requisitos
+		if aEliminar.nil?
+			return false
+		end
+		#Si se encontro una materia eliminar la oferta
+		$ofertaDeCursos.delete(aEliminar)
+		cursoEliminar=Curso.find(aEliminar)
+		#Para cada uno de los estudiantes que tenian asignado este curso
+		@asignadosCurso[aEliminar].each do |id,val|
+			#Eliminar el curso de la lista de asignadas para el estudiante
+			@asignadasEstudiantes[id].delete(cursoEliminar)
+			#Indicar que el estudiante tiene una materia menos asignada
+			@cuantasEstudiantes[id]-=1
+		end
+
+		#Eliminar los asignados a esta materia
+		@asignadosCurso.delete(aEliminar)
+		return true
+	end
+
+	def contarCuposFinales		
+
+		$ofertaDeCursos.each do |id,oferta|
+			if $ofertaDeCursos[id].cupos==10000||(not($maximos.nil?||$maximos[id].nil?)&&$ofertaDeCursos[id].cupos==$maximos[id])
+				$ofertaDeCursos[id].cupos=@asignadosCurso[id].count
+			end
+		end
+
+		@ofertaSorted=$ofertaDeCursos.sort_by { |id, oferta| oferta.cupos }.reverse	
+	end
+
+	def recalcularConflictos
+		@conflictosCrtiticos=Hash.new
+		@otrosConflictos=Hash.new
+		@sinProblemas=Hash.new
+		calcularConlfictos()
+	end
+
+	def reasignarConflictos
+
+		#Para cada conflicto critico
+		@conflictosCrtiticos.each do |id,val|
+			#Contar cuantas faltan por asignar
+			porAsignar=@demandaEstudiantes[id].demanda	
+			#Se han asignado 0	
+			asignadas=0  			
+			#Mirar todos los planes del estudiante
+	    	Estudiante.find(id).plans.each do |plan|
+	    		#Si ya se le asignaron suficientes terminar
+	    		if asignadas==porAsignar
+	    			break
+	    		end
+	    		#Si este curso se esta ofreciendo y queda al menos un cupo libre
+	    		if not($ofertaDeCursos[plan.curso.id].nil?||$ofertaDeCursos[plan.curso.id].cupos<=@asignadosCurso[plan.curso.id].count)
+	    			#Asignar al estudiante al curso
+	    			@asignadosCurso[plan.curso.id][id]=true
+	    			asignadas+=1
+	    			#Modificar las cuaentas para indicar que el estudiante fue asignado
+					if @cuantasEstudiantes[id].nil?
+						@cuantasEstudiantes[id]=1
+					else
+						@cuantasEstudiantes[id]+=1
+					end
+					if @asignadasEstudiantes[id].nil?
+						@asignadasEstudiantes[id]=Array.new
+					end
+					@asignadasEstudiantes[id].push($ofertaDeCursos[plan.curso.id].materia)
+
+	    		end	    		
+	    	end
+	    end
+
+	    #Para cada conflicto leve
+		@otrosConflictos.each do |id,val|
+			#Contar cuantas faltan por asignar
+			porAsignar=	@demandaEstudiantes[id].demanda-@cuantasEstudiantes[id]
+			#Se han asignado 0	
+			asignadas=0  			
+			#Mirar todos los planes del estudiante
+	    	Estudiante.find(id).plans.each do |plan|
+	    		#Si ya se le asignaron suficientes terminar
+	    		if asignadas==porAsignar
+	    			break
+	    		end
+	    		#Si este curso se esta ofreciendo, queda al menos un cupo libre y este curso no se le asigno previamente al estudiante
+	    		if not($ofertaDeCursos[plan.curso.id].nil?||$ofertaDeCursos[plan.curso.id].cupos<=@asignadosCurso[plan.curso.id].count)&&(@asignadosCurso[plan.curso.id][id].nil?||not(@asignadosCurso[plan.curso.id][id]))
+	    			#Asignar al estudiante al curso
+	    			@asignadosCurso[plan.curso.id][id]=true
+	    			asignadas+=1
+	    			#Modificar las cuaentas para indicar que el estudiante fue asignado
+					if @cuantasEstudiantes[id].nil?
+						@cuantasEstudiantes[id]=1
+					else
+						@cuantasEstudiantes[id]+=1
+					end
+					if @asignadasEstudiantes[id].nil?
+						@asignadasEstudiantes[id]=Array.new
+					end
+					@asignadasEstudiantes[id].push($ofertaDeCursos[plan.curso.id].materia)
+	    		end	    		
+	    	end
+	    end
 	end
 
 	def ultimaOferta(render=true)
@@ -57,8 +195,8 @@ class OptimizadorController < ApplicationController
 
 	def eliminarOferta
 		$ofertaDeCursos.delete(params[:curso_id].to_i)
-		calcularAsignacionOferta()		
-			render "optimizador/displayOferta"
+		obtenerSugerenciaOptima()
+		render "optimizador/displayOferta"
 	end
 
 	def agregarOferta
@@ -72,7 +210,7 @@ class OptimizadorController < ApplicationController
 				$ofertaDeCursos[params[:curso_id].to_i].cupos+=params[:cupos].to_i
 			end
 		end
-		calcularAsignacionOferta()		
+		obtenerSugerenciaOptima()	
 		render "optimizador/displayOferta"
 	end
 
@@ -82,7 +220,7 @@ class OptimizadorController < ApplicationController
 				$ofertaDeCursos[params[:curso_id].to_i].cupos+=1
 			end
 		end
-		calcularAsignacionOferta()		
+		obtenerSugerenciaOptima()		
 		render "optimizador/displayOferta"
 	end
 
@@ -95,7 +233,7 @@ class OptimizadorController < ApplicationController
 				end
 			end
 		end
-		calcularAsignacionOferta()		
+		obtenerSugerenciaOptima()	
 		render "optimizador/displayOferta"
 	end
 
@@ -117,9 +255,13 @@ class OptimizadorController < ApplicationController
 		@cuantasEstudiantes=Hash.new	
 		@ofertaSorted=$ofertaDeCursos.sort_by { |id, oferta| oferta.cupos }.reverse	
 
+		#Guardar la lista de estudiantes asignados a cada curso
+		@asignadosCurso=Hash.new
+
 		$ofertaDeCursos.each do |id,oferta|			
 			@ofertaCurso=oferta
 			obtenerDemandaActual()
+			@asignadosCurso[id]=@asignados
 			contarAsignadas()
 		end
 		@conflictosCrtiticos=Hash.new
