@@ -47,6 +47,20 @@ Then(/^I should see content "(.*?)" in table "(.*?)" in the position "(.*?)", "(
   	within (first('table#'+table+' tr:nth-child('+row+') td:nth-child('+column+')')) do
   		page.should have_content text
 	end
+end
 
+Then(/^The program "(.*?)" should exist$/) do |name|
+  Programa.where(:nombre=>name).first.should_not be_nil
+end
 
+Then(/^The student "(.*?)" should exist$/) do |name|
+  Estudiante.where(:nombre=>name).first.should_not be_nil
+end
+
+Then(/^The subject "(.*?)" should exist$/) do |name|  
+ Curso.where(:nombre=>name).first.should_not be_nil
+end
+
+Then(/^The subject "(.*?)" is valid for the program "(.*?)"$/) do |nameSub, namePro|
+  Valida.where(:programa_id=>Programa.where(:nombre=>namePro).first.id,:curso_id=>Curso.where(:nombre=>nameSub).first.id).first.should_not be_nil
 end

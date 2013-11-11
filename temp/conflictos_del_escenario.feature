@@ -1,5 +1,5 @@
 #language: en
-Feature: Conflictos Oferta
+Feature: Sugerir Oferta
 	In order to optimizar la asignacion de cupos
 	I want to determinar los conflictos de horario
 
