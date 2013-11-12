@@ -24,7 +24,7 @@
 </head>
 
 
-<h1>Asignación de cupos para <%= @ofertaCurso.materia.nombre %></h1>
+<h1>Asignación de cupos para <%= @ofertaCurso.curso.nombre %></h1>
 
 <span style="float:right;"><%= link_to 'Volver',{:controller => "optimizador", :action => "ultimaOferta"},:class=>"btn btn-info",:style=>'color:#FFFFFF;' %></span>
 <br/>
@@ -36,7 +36,7 @@
       <td colspan="2">Información del Curso</td>
     </tr> 
     <tr>
-      <td>Nombre: <%= @ofertaCurso.materia.nombre %></td>
+      <td>Nombre: <%= @ofertaCurso.curso.nombre %></td>
       <td>Programa:</td>
     </tr> 
     <tr>
@@ -291,7 +291,7 @@ function pie_chart(){
             ]);
 
         // Set chart options
-        var options = {'title':'Demanda total para el curso "'+<%=raw @ofertaCurso.materia.nombre.to_json %>+'" en el presente semestre',
+        var options = {'title':'Demanda total para el curso "'+<%=raw @ofertaCurso.curso.nombre.to_json %>+'" en el presente semestre',
                        'width':600,
                        'height':300,
                        'is3D':true,};

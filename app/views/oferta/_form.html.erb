@@ -1,0 +1,21 @@
+<%= form_for(@ofertum) do |f| %>
+  <% if @ofertum.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ofertum.errors.count, "error") %> prohibited this ofertum from being saved:</h2>
+
+      <ul>
+      <% @ofertum.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :cupos %><br>
+    <%= f.number_field :cupos %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

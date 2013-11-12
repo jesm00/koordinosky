@@ -1,6 +1,10 @@
 Koordinosky::Application.routes.draw do
 
 
+  resources :oferta
+
+  resources :escenarios
+
   #root 'pages#index'
   get '/pages/index' => 'pages#index'
   root 'sessions#new'
@@ -35,6 +39,13 @@ Koordinosky::Application.routes.draw do
 		get 'seleccionar'
 	  end
 	end
+
+  get '/optimizador/showEscenario' => 'optimizador#showEscenario'
+  post '/optimizador/showEscenario' => 'optimizador#showEscenario'
+
+  get '/optimizador/guardarUltimoEscenario' => 'optimizador#guardarUltimoEscenario'
+  post '/optimizador/guardarUltimoEscenario' => 'optimizador#guardarUltimoEscenario'
+
   get '/optimizador/setMinimo' => 'optimizador#setMinimo'
   post '/optimizador/setMinimo' => 'optimizador#setMinimo'
 

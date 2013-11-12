@@ -1,4 +1,34 @@
 class OptimizadorController < ApplicationController
+	def guardarUltimoEscenario
+		@errors=nil
+		if $ofertaDeCursos.nil?||params[:id_escenario].nil?||Escenario.where(:id=>params[:id_escenario]).first.nil?
+			render "optimizador/errorGuardando"
+		else
+			guardo=true
+			esc=Escenario.where(:id=>params[:id_escenario]).first
+			$ofertaDeCursos.each do |id,oferta|
+				oferta.escenario=esc
+				guardo=guardo&&oferta.save
+			end
+			if guardo
+      			redirect_to :controller=>'escenarios', :action => 'index'
+			else
+				render "optimizador/errorGuardando"
+			end
+		end
+	end
+
+	def showEscenario
+		if params[:escenario_id].nil?||Escenario.where(:id=>params[:escenario_id]).first.nil?
+			sugerirOferta()
+		else
+			$ofertaDeCursos=Hash.new
+			Oferta.where(:escenario_id=>params[:escenario_id]).each do |oferta|
+				$ofertaDeCursos[oferta.curso.id]=oferta
+			end
+			ultimaOferta()
+		end
+	end
 
 	def estadisticas
 		ultimaOferta(false)
@@ -34,7 +64,7 @@ class OptimizadorController < ApplicationController
 		validarMinimoMaximo()
 		$ofertaDeCursos=Hash.new
 		Curso.all.each do |curso|
-			@ofertaCurso=Oferta.new(curso,30)
+			@ofertaCurso=Oferta.new(:curso_id=>curso.id,:cupos=>30)
 			calcularDemanda()
 			if @demandaCurso>0
 				#Si se definio un máximo usar ese máximo como número de cupos inicial
@@ -160,7 +190,7 @@ class OptimizadorController < ApplicationController
 					if @asignadasEstudiantes[id].nil?
 						@asignadasEstudiantes[id]=Array.new
 					end
-					@asignadasEstudiantes[id].push($ofertaDeCursos[plan.curso.id].materia)
+					@asignadasEstudiantes[id].push($ofertaDeCursos[plan.curso.id].curso)
 
 	    		end	    		
 	    	end
@@ -192,7 +222,7 @@ class OptimizadorController < ApplicationController
 					if @asignadasEstudiantes[id].nil?
 						@asignadasEstudiantes[id]=Array.new
 					end
-					@asignadasEstudiantes[id].push($ofertaDeCursos[plan.curso.id].materia)
+					@asignadasEstudiantes[id].push($ofertaDeCursos[plan.curso.id].curso)
 	    		end	    		
 	    	end
 	    end
@@ -220,7 +250,7 @@ class OptimizadorController < ApplicationController
 			if $ofertaDeCursos[params[:curso_id].to_i].nil?
 				if Curso.exists?(id: params[:curso_id])
 					curso=Curso.find(params[:curso_id])
-					$ofertaDeCursos[curso.id]=Oferta.new(curso,params[:cupos].to_i)
+					$ofertaDeCursos[curso.id]=Oferta.new(:curso_id=>curso.id,:cupos=>params[:cupos].to_i)
 				end
 			else
 				$ofertaDeCursos[params[:curso_id].to_i].cupos+=params[:cupos].to_i
@@ -308,7 +338,7 @@ class OptimizadorController < ApplicationController
 			if @asignadasEstudiantes[id].nil?
 				@asignadasEstudiantes[id]=Array.new
 			end
-			@asignadasEstudiantes[id].push(@ofertaCurso.materia)			
+			@asignadasEstudiantes[id].push(@ofertaCurso.curso)			
 		end
 	end
 
@@ -329,7 +359,7 @@ class OptimizadorController < ApplicationController
 		end		
 		#Si no existe una asignación global hacer la asignación local
 		if $asignadosCurso.nil?||$asignadosCurso[curso.id].nil?
-			@ofertaCurso=Oferta.new(curso,cupos)
+			@ofertaCurso=Oferta.new(:curso_id=>curso.id,:cupos=>cupos)
 			obtenerDemandaActual()
 		#Si la asignación global existe usarla
 		else
@@ -359,7 +389,7 @@ class OptimizadorController < ApplicationController
 				@asignadosAltaPrioridad.push(est)
 			elsif not(est.programa.es_maestria)
 				@asignadosPregrado.push(est)
-			elsif @ofertaCurso.materia.esValida(est.programa.id)
+			elsif @ofertaCurso.curso.esValida(est.programa.id)
 				@asignadosMismaMaestria.push(est)
 			else
 				@asignadosOtraMaestria.push(est)
@@ -387,7 +417,7 @@ class OptimizadorController < ApplicationController
 		#if @asignados[id_estudiante].nil?
 		#TODO recibir semestre por parametro
 		#Buscar los planes de estudio de los estudiantes donde aparece esta materia
-		@demanda=Plan.where(curso_id: @ofertaCurso.materia.id, semestre: "201410")
+		@demanda=Plan.where(curso_id: @ofertaCurso.curso.id, semestre: "201410")
 		#Contar la demanda de los estudiantes
 		@demandaCurso=@demanda.count
 		#Separar a los estudiantes entre los de maestría (o maestrias de la materia en caso de que sea valida
@@ -439,7 +469,7 @@ class OptimizadorController < ApplicationController
 			else
 				#Si es de maestria verificar si la maestria es valida para este curso
 				#y agregar al estudiante a la lista correspondiente
-				if @ofertaCurso.materia.esValida(plan.estudiante.programa.id)
+				if @ofertaCurso.curso.esValida(plan.estudiante.programa.id)
 					@estMaestria.push(plan.estudiante)
 				else
 					@estOtraMaestria.push(plan.estudiante)

@@ -1,0 +1,27 @@
+<h1>Listing oferta</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Cupos</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @oferta.each do |ofertum| %>
+      <tr>
+        <td><%= ofertum.cupos %></td>
+        <td><%= link_to 'Show', ofertum %></td>
+        <td><%= link_to 'Edit', edit_ofertum_path(ofertum) %></td>
+        <td><%= link_to 'Destroy', ofertum, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ofertum', new_ofertum_path %>

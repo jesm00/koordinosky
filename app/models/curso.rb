@@ -1,4 +1,7 @@
 class Curso < ActiveRecord::Base
+	has_many :ofertas
+	has_many :programas, :through => :validas
+
 	has_many :validas
 	has_many :programas, :through => :validas
 	

@@ -1,0 +1,26 @@
+<h1>Listing escenarios</h1>
+
+<table id="table_escenarios">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @escenarios.each do |escenario| %>
+      <tr>
+        <td><%= escenario.nombre %></td>        
+        <td><%= link_to raw("<i class=\"icon-search\"></i>"), :controller => "optimizador", :action => "showEscenario", :escenario_id => escenario.id%></td>
+        <td><%= link_to raw("<i class=\"icon-trash\"></i>"), escenario, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Escenario', new_escenario_path %>

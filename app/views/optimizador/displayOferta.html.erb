@@ -1,4 +1,5 @@
 <div align="center">
+	<span style="float:right;"><%= link_to 'Guardar escenario', {:controller => "escenarios", :action => "new"},:class=>"btn btn-info",:style=>'color:#FFFFFF;' %></span>
 	<h1>CURSOS SUGERIDOS</h1>
 	<table  id="table_oferta" class="table table-condensed">
 	  	<thead>
@@ -13,7 +14,7 @@
 	<% @ofertaSorted.each do |id,oferta| %>
 		  	<tr>
 				<td align="center" width="50px">				  
-    				<%= link_to oferta.materia.nombre,:controller => "optimizador", :action => "asignacionCupos", :curso_id => oferta.materia.id, :cupos => oferta.cupos%>
+    				<%= link_to oferta.curso.nombre,:controller => "optimizador", :action => "asignacionCupos", :curso_id => oferta.curso.id, :cupos => oferta.cupos%>
     			</td>
 				<td align="center" width="200px">  
     				<p width="200px"><%= oferta.cupos %></p>
