@@ -498,4 +498,22 @@ Before do |scenario|
 		Plan.create(:curso_id=>curso2.id,:estudiante_id => estudiante12.id, :semestre => "201410")
     	Capybara.current_driver = :selenium
   end
+  if scenario.title=='Optimizar sugerencia'
+  		programa=Programa.create(:nombre => 'Programa maestria prueba',:es_maestria => true, :duracion => 4)
+	    estudiante1=Estudiante.create(:nombre => 'Estudiante prueba 1', :email => 'a@a.a', :semestre_actual => 1, :programa_id => programa.id, :password => '123456', :password_confirmation => '123456')
+	    estudiante2=Estudiante.create(:nombre => 'Estudiante prueba 2', :email => 'b@b.b', :semestre_actual => 2, :programa_id => programa.id, :password => '123456', :password_confirmation => '123456')
+	    
+	    curso1=Curso.create(:nombre => 'Curso prueba 1', :creditos => 4)
+	    curso2=Curso.create(:nombre => 'Curso prueba 2', :creditos => 4)
+
+	    valido1=Valida.create(:curso_id => curso1.id, :programa_id => programa.id)
+	    valido2=Valida.create(:curso_id => curso2.id, :programa_id => programa.id)
+
+		#1 de los estudiantes quieren ver el curso 1
+		Plan.create(:curso_id=>curso1.id,:estudiante_id => estudiante1.id, :semestre => "201410")
+
+		#2 de los estudiantes quieren ver el curso 2
+		Plan.create(:curso_id=>curso2.id,:estudiante_id => estudiante1.id, :semestre => "201420")
+		Plan.create(:curso_id=>curso2.id,:estudiante_id => estudiante2.id, :semestre => "201410")
+  end
 end
