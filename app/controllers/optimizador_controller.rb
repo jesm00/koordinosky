@@ -7,8 +7,9 @@ class OptimizadorController < ApplicationController
 			guardo=true
 			esc=Escenario.where(:id=>params[:id_escenario]).first
 			$ofertaDeCursos.each do |id,oferta|
-				oferta.escenario=esc
-				guardo=guardo&&oferta.save
+				of=Oferta.new(:curso_id=>id,:cupos=>oferta.cupos)
+				of.escenario=esc
+				guardo=guardo&&of.save
 			end
 			if guardo
       			redirect_to :controller=>'escenarios', :action => 'index'
