@@ -1,7 +1,14 @@
 <span style="float:right;"><%= link_to 'Volver',{:controller => "optimizador", :action => "ultimaOferta"},:class=>"btn btn-info",:style=>'color:#FFFFFF;' %></span>
-
+<%=@showTablaOcupacion%>
+<%=@showTablaAsignacion%>
 <h3>Resumen de Conflictos</h3>
 <div id="chart_conflictos" align="center"></div>
+
+<h3>% Ocupacion por Curso</h3>
+<div id="chart_ocupacion_curso" align="center"></div>
+
+<h3>Asignación por Curso</h3>
+<div id="chart_asignacion_curso" align="center"></div>
 
 <script type="text/javascript">
 Statistics_Graphs();
@@ -11,6 +18,8 @@ function Statistics_Graphs(){
       // Set a callback to run when the Google Visualization API is loaded.
       google.load('visualization', '1.0', {'packages':['corechart']});
       google.setOnLoadCallback(drawConflictos);
+      google.setOnLoadCallback(drawOcupacion);
+      google.setOnLoadCallback(drawAsignacion);
       // Callback that creates and populates a data table,
       // instantiates the pie chart, passes in the data and
       // draws it.
@@ -33,5 +42,38 @@ function Statistics_Graphs(){
         var chart = new google.visualization.PieChart(document.getElementById('chart_conflictos'));
         chart.draw(data, options);
       }
+
+      function drawOcupacion() {
+        // Create the data table.
+        // Set chart options
+        var data = new google.visualization.arrayToDataTable([<%= raw @tablaOcupacion%>]);
+        var options = {'title':'Porcentaje de Ocupacion por Curso',
+                       'width':600,
+                       'height':400,
+                       'is3D':true,
+                       vAxis: {title: 'Cursos',  titleTextStyle: {color: 'red'}},
+                       hAxis: {title: '% Ocupacion',  titleTextStyle: {color: 'red'}},
+                    };
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.BarChart(document.getElementById('chart_ocupacion_curso'));
+        chart.draw(data, options);
+      } 
+
+      function drawAsignacion() {
+        // Create the data table.
+        
+        var data = new google.visualization.arrayToDataTable([<%= raw @tablaAsignacion%>]);
+        // Set chart options
+        var options = {'title':'Asignacion por Curso',
+                       'width':600,
+                       'height':400,
+                       'is3D':true,
+                       vAxis: {title: 'Cursos',  titleTextStyle: {color: 'red'}},
+                       hAxis: {title: 'N° Estudiantes',  titleTextStyle: {color: 'red'}},
+                    };
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.BarChart(document.getElementById('chart_asignacion_curso'));
+        chart.draw(data, options);
+      } 
 }      
 </script> 

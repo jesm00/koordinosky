@@ -64,3 +64,4 @@ end
 Then(/^The subject "(.*?)" is valid for the program "(.*?)"$/) do |nameSub, namePro|
   Valida.where(:programa_id=>Programa.where(:nombre=>namePro).first.id,:curso_id=>Curso.where(:nombre=>nameSub).first.id).first.should_not be_nil
 end
+

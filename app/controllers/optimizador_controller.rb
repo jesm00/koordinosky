@@ -32,7 +32,31 @@ class OptimizadorController < ApplicationController
 
 	def estadisticas
 		ultimaOferta(false)
+		calcularEstadisticas()
 		render "optimizador/estadisticas"
+	end
+
+	def calcularEstadisticas
+		@tablaOcupacion="['Curso','% ocupacion'],"
+		@tablaAsignacion="['Curso','Asignados','Sin asignar','Demanda'],"
+		$ofertaDeCursos.each do |id,oferta|
+			@ofertaCurso=oferta
+			calcularDemanda()
+			asignados=0.0
+			if not($asignadosCurso.nil?||$asignadosCurso[id].nil?)
+				asignados=$asignadosCurso[id].count.to_f
+			end
+			sinAsignar=@demandaCurso-asignados.to_i
+			if sinAsignar<0
+				sinAsignar=0
+			end
+			@tablaOcupacion=@tablaOcupacion+"['"+oferta.curso.nombre+"',"+((asignados/oferta.cupos)*100).to_s+"],"
+			@tablaAsignacion=@tablaAsignacion+"['"+oferta.curso.nombre+"',"+asignados.to_i.to_s+","+sinAsignar.to_s+","+@demandaCurso.to_s+"],"
+		end
+		if Rails.env.test?
+			@showTablaOcupacion=@tablaOcupacion
+			@showTablaAsignacion=@tablaAsignacion
+		end		
 	end
 
 	def sugerirSemestre
